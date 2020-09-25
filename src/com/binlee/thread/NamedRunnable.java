@@ -9,7 +9,7 @@ public abstract class NamedRunnable implements Runnable {
     private final String mPrefix;
     private final int mId;
 
-    NamedRunnable(String prefix, int id) {
+    protected NamedRunnable(String prefix, int id) {
         mPrefix = prefix;
         mId = id;
     }
