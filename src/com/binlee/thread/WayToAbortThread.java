@@ -32,7 +32,7 @@ public final class WayToAbortThread {
             return;
         }
         mPercent = 0;
-        mThread = new Thread("DownloadThread#" + mSeq.getAndIncrement()) {
+        mThread = new Thread("DownloadThread" + mSeq.getAndIncrement()) {
             @Override
             public void run() {
                 while (mStarted && !interrupted()) {

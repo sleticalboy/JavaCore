@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class Logger {
 
-    private static final Map<String, Logger> LOGGER_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, Logger> LOGGERS = new ConcurrentHashMap<>();
     private final String mTag;
 
     private Logger(String tag) {
@@ -29,11 +29,13 @@ public final class Logger {
     }
 
     public static Logger get(Class<?> clazz) {
-        Logger logger = LOGGER_MAP.get(clazz.getName());
-        if (logger == null) {
-            logger = new Logger(clazz.getSimpleName());
-            LOGGER_MAP.put(clazz.getName(), logger);
+        synchronized (LOGGERS) {
+            Logger logger = LOGGERS.get(clazz.getName());
+            if (logger == null) {
+                logger = new Logger(clazz.getSimpleName());
+                LOGGERS.put(clazz.getName(), logger);
+            }
+            return logger;
         }
-        return logger;
     }
 }

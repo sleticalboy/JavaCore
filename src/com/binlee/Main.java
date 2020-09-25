@@ -1,5 +1,6 @@
 package com.binlee;
 
+import com.binlee.thread.DaemonThread;
 import com.binlee.thread.WayToAbortThread;
 import com.binlee.thread.WayToStartThread;
 
@@ -21,7 +22,8 @@ public class Main {
 
     public static void main(String[] args) {
         // WayToStartThread.main();
-        WayToAbortThread.main();
+        // WayToAbortThread.main();
+        DaemonThread.main();
     }
 
     public void run() {

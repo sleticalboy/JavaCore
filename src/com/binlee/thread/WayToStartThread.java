@@ -32,9 +32,9 @@ public final class WayToStartThread {
             @Override
             public Thread newThread(Runnable r) {
                 final int id = seq.getAndIncrement();
-                final Thread thread = new Thread(r, "Thread#" + id);
+                final Thread thread = new Thread(r, "Thread" + id);
                 thread.setDaemon(false);
-                sLogger.log("ThreadFactory#newThread() with " + thread.getName() + ", r: " + r);
+                sLogger.log("ThreadFactorynewThread() with " + thread.getName() + ", r: " + r);
                 return thread;
             }
         }, new RejectedExecutionHandler() {
@@ -51,7 +51,7 @@ public final class WayToStartThread {
         });
         sLogger.log("start a thread by ExecutorService");
         for (int i = 0; i < 4; i++) {
-            service.submit(new NamedRunnable("Worker#", i) {
+            service.submit(new NamedRunnable("Worker", i) {
                 @Override
                 public void run() {
                     try {
@@ -65,7 +65,7 @@ public final class WayToStartThread {
             });
         }
         for (int i = 4; i < 8; i++) {
-            service.execute(new NamedRunnable("Worker#", i) {
+            service.execute(new NamedRunnable("Worker", i) {
                 @Override
                 public void run() {
                     try {
@@ -92,7 +92,7 @@ public final class WayToStartThread {
         final FutureTask<String> task = new FutureTask<>(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return "result from FutureTask's Callable<String>#call()";
+                return "result from FutureTask's Callable<String>call()";
             }
         });
         new Thread(task).start();

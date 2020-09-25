@@ -21,6 +21,6 @@ public abstract class NamedRunnable implements Runnable {
     @Override
     public String toString() {
         // Worker#10 run in Thread#8
-        return mPrefix + mId;
+        return mPrefix + "#" + mId;
     }
 }
