@@ -1,5 +1,7 @@
 package com.binlee;
 
+import com.binlee.thread.WayToStartThread;
+
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,9 +19,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // write your code here
-        System.out.println("Main#main() run...");
-        new Main().run();
+        WayToStartThread.main();
     }
 
     public void run() {
