@@ -1,5 +1,6 @@
 package com.binlee;
 
+import com.binlee.thread.WayToAbortThread;
 import com.binlee.thread.WayToStartThread;
 
 import java.util.concurrent.Semaphore;
@@ -19,7 +20,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        WayToStartThread.main();
+        // WayToStartThread.main();
+        WayToAbortThread.main();
     }
 
     public void run() {

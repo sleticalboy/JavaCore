@@ -117,21 +117,4 @@ public final class WayToStartThread {
             sLogger.log("start a thread by new Thread(new Runnable() {}).start()");
         }).start();
     }
-
-    static abstract class NamedRunnable implements Runnable {
-
-        private final String mPrefix;
-        private final int mId;
-
-        NamedRunnable(String prefix, int id) {
-            mPrefix = prefix;
-            mId = id;
-        }
-
-        @Override
-        public String toString() {
-            // Worker#10 run in Thread#8
-            return mPrefix + mId;
-        }
-    }
 }
