@@ -5,6 +5,7 @@ import com.binlee.thread.WayToAbortThread;
 import com.binlee.thread.WayToStartThread;
 import com.binlee.thread.concurrent.DeadLock;
 import com.binlee.thread.concurrent.SyncThread;
+import com.binlee.thread.concurrent.WaitNotify;
 
 public class Main {
 
@@ -16,6 +17,7 @@ public class Main {
         // WayToAbortThread.main();
         // DaemonThread.main();
         // SyncThread.main();
-        DeadLock.main();
+        // DeadLock.main();
+        WaitNotify.main();
     }
 }
