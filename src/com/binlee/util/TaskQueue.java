@@ -18,7 +18,7 @@ public final class TaskQueue<T> {
     // 只允许一个线程写入（写入时其他线程不能写入和不能读取）
     // 没有写入时，允许多个线程同时读取
     // 以上特性决定了：此锁适用于读多写少的场景
-    private ReadWriteLock mRWLock = new ReentrantReadWriteLock();
+    private final ReadWriteLock mRWLock = new ReentrantReadWriteLock();
     private final List<T> mData;
 
     // 悲观锁：认为读取的过程中拒绝写入，写入操作必须在读取操作之后
