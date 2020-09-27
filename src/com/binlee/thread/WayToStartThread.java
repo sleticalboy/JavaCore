@@ -1,6 +1,7 @@
 package com.binlee.thread;
 
 import com.binlee.util.Logger;
+import com.binlee.util.NamedRunnable;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;

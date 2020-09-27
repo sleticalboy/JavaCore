@@ -1,4 +1,4 @@
-package com.binlee.thread;
+package com.binlee.util;
 
 /**
  * @author binli sleticalboy@gmail.com

@@ -1,7 +1,7 @@
 package com.binlee.thread.concurrent;
 
 import com.binlee.util.Logger;
-import com.binlee.thread.NamedRunnable;
+import com.binlee.util.NamedRunnable;
 
 import java.util.concurrent.locks.ReentrantLock;
 
