@@ -15,6 +15,7 @@ public final class SyncThread {
     private int mValue;
     private final Object mLock = new Object();
     private final ReentrantLock mReentrantLock = new ReentrantLock();
+    private final Mutex mMutex = Mutex.create();
 
     private SyncThread() {
     }
@@ -53,9 +54,25 @@ public final class SyncThread {
                 // calcSync_1(toString());
                 // calcSync_2(toString());
                 // calcSync_3(toString());
-                calcSync_4(toString());
+                // calcSync_4(toString());
+                calcSync_5(toString());
             }
         };
+    }
+
+    private void calcSync_5(String desc) {
+        // tryLock() 必须在返回 true 时才可执行需同步的代码，否则会报 IllegalMonitorStateException
+        if (!mMutex.tryLock()) {
+            // 重试
+            mMutex.lock();
+        }
+        try {
+            for (; mValue < 10000; mValue++) {
+                sLogger.log(desc + " run() mValue: " + mValue);
+            }
+        } finally {
+            mMutex.unlock();
+        }
     }
 
     private void calcSync_4(String desc) {
