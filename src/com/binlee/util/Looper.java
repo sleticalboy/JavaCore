@@ -1,7 +1,5 @@
 package com.binlee.util;
 
-import com.binlee.Logger;
-
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/9/26
@@ -28,7 +26,7 @@ public final class Looper {
     }
 
     public static void loop() {
-        sLogger.log("Looper#loop() running...");
+        sLogger.log("loop() running...");
     }
 
     public Thread getThread() {

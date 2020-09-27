@@ -1,4 +1,4 @@
-package com.binlee;
+package com.binlee.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class Logger {
 
-    // TODO this file should be removed to util package 
     private static final Map<String, Logger> LOGGERS = new ConcurrentHashMap<>();
     private final String mTag;
 

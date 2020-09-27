@@ -1,7 +1,5 @@
 package com.binlee.util;
 
-import com.binlee.Logger;
-
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/9/26
@@ -35,7 +33,7 @@ public class HandlerThread extends Thread {
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    sLogger.err("HandlerThread#getLooper() error.", e);
+                    sLogger.err("getLooper() error.", e);
                 }
             }
         }

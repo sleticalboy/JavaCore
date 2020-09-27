@@ -1,6 +1,6 @@
 package com.binlee.thread;
 
-import com.binlee.Logger;
+import com.binlee.util.Logger;
 
 /**
  * @author binli sleticalboy@gmail.com
