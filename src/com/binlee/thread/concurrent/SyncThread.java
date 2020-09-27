@@ -59,7 +59,11 @@ public final class SyncThread {
     }
 
     private void calcSync_4(String desc) {
-        mReentrantLock.tryLock();
+        // tryLock() 必须在返回 true 时才可执行需同步的代码，否则会报 IllegalMonitorStateException
+        if (!mReentrantLock.tryLock()) {
+            // 重试
+            mReentrantLock.lock();
+        }
         try {
             for (; mValue < 10000; mValue++) {
                 sLogger.log(desc + " run() mValue: " + mValue);
