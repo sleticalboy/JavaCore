@@ -20,7 +20,7 @@ public final class SyncThread {
     private SyncThread() {
     }
 
-    public static void main() {
+    public static void run() {
         final SyncThread sync = new SyncThread();
         sLogger.log("main() start sValue: " + sync.mValue);
         final Thread[] threads = new Thread[10];

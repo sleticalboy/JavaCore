@@ -17,7 +17,7 @@ public final class WayToStartThread {
     private WayToStartThread() {
     }
 
-    public static void main() {
+    public static void run() {
         sLogger.log("there are 4 ways to start a new thread");
         WayToStartThread how = new WayToStartThread();
         how.way_1();

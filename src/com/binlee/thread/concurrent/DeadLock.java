@@ -15,7 +15,7 @@ public final class DeadLock {
     private DeadLock() {
     }
 
-    public static void main() {
+    public static void run() {
         // 死锁产生的必要条件：
         // 互斥：一个资源每次只能被一个线程使用（独木桥每次只能通过一人）
         // 不可剥夺：线程已经获得资源，在未使用完之前不能强行剥夺（ben 正在过桥，其他人不能强制让 ben 返回）
@@ -29,10 +29,10 @@ public final class DeadLock {
         // 避免嵌套锁
 
         // synchronized 是可重入锁
-        new DeadLock().run();
+        new DeadLock().run0();
     }
 
-    private void run() {
+    private void run0() {
         new Thread("Thread-1") {
             @Override
             public void run() {

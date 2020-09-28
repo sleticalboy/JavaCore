@@ -7,17 +7,19 @@ import com.binlee.thread.concurrent.DeadLock;
 import com.binlee.thread.concurrent.SyncThread;
 import com.binlee.thread.concurrent.WaitNotify;
 
+import java.util.Arrays;
+
 public class Main {
 
     public Main() {
     }
 
     public static void main(String[] args) {
-        // WayToStartThread.main();
-        // WayToAbortThread.main();
-        // DaemonThread.main();
-        // SyncThread.main();
-        // DeadLock.main();
-        WaitNotify.main();
+        // WayToStartThread.run();
+        // WayToAbortThread.run();
+        // DaemonThread.run();
+        // SyncThread.run();
+        // DeadLock.run();
+        WaitNotify.run();
     }
 }

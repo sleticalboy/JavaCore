@@ -20,7 +20,7 @@ public final class WayToAbortThread {
         mSeq = new AtomicInteger(100);
     }
 
-    public static void main() {
+    public static void run() {
         final WayToAbortThread way = new WayToAbortThread();
         way.start();
         // way.stop_1();

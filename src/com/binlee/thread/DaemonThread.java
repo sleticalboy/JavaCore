@@ -61,11 +61,11 @@ public final class DaemonThread {
         sLogger.log("main thread exit.");
     }
 
-    public static void main() {
-        new DaemonThread().run();
+    public static void run() {
+        new DaemonThread().run0();
     }
 
-    private void run() {
+    private void run0() {
         if (mThread != null) {
             mThread.start();
         }

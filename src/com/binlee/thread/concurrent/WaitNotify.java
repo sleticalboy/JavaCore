@@ -11,11 +11,11 @@ public final class WaitNotify {
 
     private static final Logger sLogger = Logger.get(WaitNotify.class);
 
-    public static void main() {
-        new WaitNotify().run();
+    public static void run() {
+        new WaitNotify().run0();
     }
 
-    private void run() {
+    private void run0() {
         final HandlerThread thread = new HandlerThread("HandlerThread");
         thread.start();
         sLogger.log("run() looper: " + thread.getLooper());
