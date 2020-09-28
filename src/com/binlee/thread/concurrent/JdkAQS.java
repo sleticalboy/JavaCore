@@ -111,19 +111,24 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
         /**
          * waitStatus value to indicate thread has cancelled
+         * waitStatus: 当前等待节点已取消调度
          */
         static final int CANCELLED = 1;
         /**
          * waitStatus value to indicate successor's thread needs unparking
+         * waitStatus: 后续节点在等待当前节点唤醒
          */
         static final int SIGNAL = -1;
         /**
          * waitStatus value to indicate thread is waiting on condition
+         * waitStatus: 节点等待在 condition 上，当其他线程调用了 Condition#signal() 方法后，
+         * 该节点将从等待队列转移到同步队列，等待获取同步锁
          */
         static final int CONDITION = -2;
         /**
          * waitStatus value to indicate the next acquireShared should
          * unconditionally propagate
+         * waitStatus: 共享模式下，pre 节点不仅会唤醒 next 节点，还会唤醒 next.next.next...
          */
         static final int PROPAGATE = -3;
 
@@ -225,21 +230,25 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
          */
         final Node predecessor() throws NullPointerException {
             Node p = prev;
-            if (p == null)
+            if (p == null) {
                 throw new NullPointerException();
-            else
+            } else {
                 return p;
+            }
         }
 
-        Node() {    // Used to establish initial head or SHARED marker
+        Node() {
+            // Used to establish initial head or SHARED marker
         }
 
-        Node(Thread thread, Node mode) {     // Used by addWaiter
+        Node(Thread thread, Node mode) {
+            // Used by addWaiter
             this.nextWaiter = mode;
             this.thread = thread;
         }
 
-        Node(Thread thread, int waitStatus) { // Used by Condition
+        Node(Thread thread, int waitStatus) {
+            // Used by Condition
             this.waitStatus = waitStatus;
             this.thread = thread;
         }
