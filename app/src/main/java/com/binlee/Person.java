@@ -40,5 +40,6 @@ public class Person {
 
     public static void run() {
         new Person("ben", Gender.MALE).say();
+        new com.binlee.apt.Hello$$Apt().helloApt();
     }
 }
