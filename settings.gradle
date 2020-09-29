@@ -1,0 +1,5 @@
+include ':app'
+include ':lib-annotation'
+include ':lib-apt'
+
+rootProject.name = 'JavaCore'
