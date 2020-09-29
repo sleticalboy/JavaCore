@@ -1,14 +1,5 @@
 package com.binlee;
 
-import com.binlee.thread.DaemonThread;
-import com.binlee.thread.WayToAbortThread;
-import com.binlee.thread.WayToStartThread;
-import com.binlee.thread.concurrent.DeadLock;
-import com.binlee.thread.concurrent.SyncThread;
-import com.binlee.thread.concurrent.WaitNotify;
-
-import java.util.Arrays;
-
 public class Main {
 
     public Main() {
@@ -20,6 +11,7 @@ public class Main {
         // DaemonThread.run();
         // SyncThread.run();
         // DeadLock.run();
-        WaitNotify.run();
+        // WaitNotify.run();
+        Person.run();
     }
 }

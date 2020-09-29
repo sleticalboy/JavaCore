@@ -1,21 +1,23 @@
-package com.binlee.annotation;
+package com.binlee.processor;
+
+import com.binlee.annotation.Gender;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/9/28
  */
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class Apt extends AbstractProcessor {
 
     @Override
@@ -25,7 +27,7 @@ public class Apt extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        final Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Person.Gender.class);
+        final Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Gender.class);
         if (elements == null || elements.size() == 0) {
             return false;
         }
@@ -38,7 +40,12 @@ public class Apt extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return super.getSupportedAnnotationTypes();
+        return Collections.singleton(Gender.class.getName());
+    }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return super.getSupportedSourceVersion();
     }
 
     public static void run() {
@@ -53,32 +60,32 @@ public class Apt extends AbstractProcessor {
                 // "-XDprocess.packages",
                 // "-proc:only",
                 // "-processor",
-                "com.binlee.annotation.Apt",
+                "com.binlee.annotation.com.binlee.annotation.processor.Apt",
         };
-        main(args);
+        // main(args);
     }
 
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(args));
-        try {
-            final Process process = Runtime.getRuntime().exec(args);
-            final InputStream input = process.getInputStream();
-            System.out.println("input: " + toString(input));
-            final InputStream error = process.getErrorStream();
-            System.out.println("error: " + toString(error));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static String toString(InputStream input) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final byte[] buffer = new byte[1024];
-        int len;
-        while ((len = input.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        baos.flush();
-        return baos.toString();
-    }
+    // public static void main(String[] args) {
+    //     System.out.println(Arrays.toString(args));
+    //     try {
+    //         final Process process = Runtime.getRuntime().exec(args);
+    //         final InputStream input = process.getInputStream();
+    //         System.out.println("input: " + toString(input));
+    //         final InputStream error = process.getErrorStream();
+    //         System.out.println("error: " + toString(error));
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+    //
+    // private static String toString(InputStream input) throws IOException {
+    //     final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //     final byte[] buffer = new byte[1024];
+    //     int len;
+    //     while ((len = input.read(buffer)) != -1) {
+    //         baos.write(buffer, 0, len);
+    //     }
+    //     baos.flush();
+    //     return baos.toString();
+    // }
 }
