@@ -1,6 +1,4 @@
-package com.binlee;
-
-import com.binlee.annotation.Gender;
+package com.binlee.annotation;
 
 /**
  * @author binlee sleticalboy@gmail.com

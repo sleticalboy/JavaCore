@@ -1,6 +1,15 @@
 package com.binlee;
 
-public class Main {
+import com.binlee.annotation.Person;
+import com.binlee.design.Design;
+import com.binlee.thread.DaemonThread;
+import com.binlee.thread.WayToAbortThread;
+import com.binlee.thread.WayToStartThread;
+import com.binlee.thread.concurrent.DeadLock;
+import com.binlee.thread.concurrent.SyncThread;
+import com.binlee.thread.concurrent.WaitNotify;
+
+public final class Main {
 
     public Main() {
     }
@@ -9,9 +18,10 @@ public class Main {
         // WayToStartThread.run();
         // WayToAbortThread.run();
         // DaemonThread.run();
-        // SyncThread.run();
+        SyncThread.run();
         // DeadLock.run();
         // WaitNotify.run();
-        Person.run();
+        // Person.run();
+        // Design.run(args);
     }
 }
