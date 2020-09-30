@@ -18,7 +18,7 @@ public final class WayToStartThread {
     }
 
     public static void run() {
-        sLogger.log("there are 4 ways to start a new thread");
+        sLogger.v("there are 4 ways to start a new thread");
         WayToStartThread how = new WayToStartThread();
         how.way_1();
         how.way_2();
@@ -35,13 +35,13 @@ public final class WayToStartThread {
                 final int id = seq.getAndIncrement();
                 final Thread thread = new Thread(r, "Thread" + id);
                 thread.setDaemon(false);
-                sLogger.log("ThreadFactorynewThread() with " + thread.getName() + ", r: " + r);
+                sLogger.v("ThreadFactorynewThread() with " + thread.getName() + ", r: " + r);
                 return thread;
             }
         }, new RejectedExecutionHandler() {
             @Override
             public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                sLogger.err("rejectedExecution() r: " + r + ", executor: " + executor, null);
+                sLogger.e("rejectedExecution() r: " + r + ", executor: " + executor);
                 if (!executor.isShutdown()) {
                     // final Runnable discarded = executor.getQueue().poll();
                     // sLogger.log("discard when rejected execution: " + discarded);
@@ -50,7 +50,7 @@ public final class WayToStartThread {
                 }
             }
         });
-        sLogger.log("start a thread by ExecutorService");
+        sLogger.v("start a thread by ExecutorService");
         for (int i = 0; i < 4; i++) {
             service.submit(new NamedRunnable("Worker", i) {
                 @Override
@@ -59,9 +59,9 @@ public final class WayToStartThread {
                         Thread.sleep(1000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        sLogger.err(toString(), e);
+                        sLogger.e(toString(), e);
                     }
-                    sLogger.log("submit result from " + toString());
+                    sLogger.v("submit result from " + toString());
                 }
             });
         }
@@ -72,16 +72,16 @@ public final class WayToStartThread {
                     try {
                         Thread.sleep(1000L);
                     } catch (InterruptedException e) {
-                        sLogger.err(toString(), e);
+                        sLogger.e(toString(), e);
                     }
-                    sLogger.log("execute result from " + toString());
+                    sLogger.v("execute result from " + toString());
                 }
             });
         }
         try {
             Thread.sleep(10000L);
             service.isShutdown();
-            sLogger.log("shut down executor service");
+            sLogger.v("shut down executor service");
             System.exit(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -89,7 +89,7 @@ public final class WayToStartThread {
     }
 
     private void way_3() {
-        sLogger.log("start a thread by Thread and FutureTask&Callable");
+        sLogger.v("start a thread by Thread and FutureTask&Callable");
         final FutureTask<String> task = new FutureTask<>(new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -98,7 +98,7 @@ public final class WayToStartThread {
         });
         new Thread(task).start();
         try {
-            sLogger.log(task.get());
+            sLogger.v(task.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -108,14 +108,14 @@ public final class WayToStartThread {
         new Thread() {
             @Override
             public void run() {
-                sLogger.log("start a thread by new Thread() {@Override run()}.start");
+                sLogger.v("start a thread by new Thread() {@Override run()}.start");
             }
         }.start();
     }
 
     private void way_1() {
         new Thread(() -> {
-            sLogger.log("start a thread by new Thread(new Runnable() {}).start()");
+            sLogger.v("start a thread by new Thread(new Runnable() {}).start()");
         }).start();
     }
 }

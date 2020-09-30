@@ -8,6 +8,7 @@ import com.binlee.thread.WayToStartThread;
 import com.binlee.thread.concurrent.DeadLock;
 import com.binlee.thread.concurrent.SyncThread;
 import com.binlee.thread.concurrent.WaitNotify;
+import com.binlee.util.Logger;
 
 public final class Main {
 
@@ -18,10 +19,11 @@ public final class Main {
         // WayToStartThread.run();
         // WayToAbortThread.run();
         // DaemonThread.run();
-        SyncThread.run();
+        // SyncThread.run();
         // DeadLock.run();
         // WaitNotify.run();
         // Person.run();
         // Design.run(args);
+        Logger.run(args);
     }
 }

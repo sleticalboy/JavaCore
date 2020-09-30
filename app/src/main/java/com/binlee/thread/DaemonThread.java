@@ -33,11 +33,11 @@ public final class DaemonThread {
             public void run() {
                 while (mCounter <= 1000) {
                     mCounter++;
-                    sLogger.log(toString() + " counter: " + mCounter);
+                    sLogger.v(toString() + " counter: " + mCounter);
                     try {
                         Thread.sleep(10L);
                     } catch (InterruptedException e) {
-                        sLogger.err(toString(), e);
+                        sLogger.e(toString(), e);
                         break;
                     }
                 }
@@ -51,14 +51,14 @@ public final class DaemonThread {
             try {
                 Thread.sleep(500L);
             } catch (InterruptedException e) {
-                sLogger.err("DaemonThread is interrupted", e);
+                sLogger.e("DaemonThread is interrupted", e);
                 mThread = null;
                 break;
             }
-            sLogger.log(name + " is running.... " + mDaemon);
+            sLogger.v(name + " is running.... " + mDaemon);
         }
         // 此处代码并不会被执行
-        sLogger.log("main thread exit.");
+        sLogger.v("main thread exit.");
     }
 
     public static void run() {

@@ -315,8 +315,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
                     new Class[]{Object.class, long.class, int.class, int.class},
                     this, stateOffset, expect, update);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("compareAndSetState() error", e.getCause());
         }
     }
 
@@ -2140,8 +2139,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             // nextOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("next"));
             nextOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
                     Node.class.getDeclaredField("next"));
-        } catch (Exception ex) {
-            throw new Error(ex);
+        } catch (Exception e) {
+            throw new RuntimeException("JdkAQS static initerror", e.getCause());
         }
     }
 
@@ -2150,7 +2149,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             try {
                 sUnsafe = Reflects.getStaticField("sun.misc.Unsafe", "theUnsafe");
             } catch (NoSuchFieldException | IllegalAccessException | ClassNotFoundException e) {
-                System.out.println("JdkAQS.getUnsafe() error: " + e);
+                throw new RuntimeException("getUnsafe() error", e.getCause());
             }
         }
         return sUnsafe;
@@ -2165,8 +2164,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, headOffset, null, update);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("compareAndSetHead() error", e.getCause());
         }
     }
 
@@ -2179,8 +2177,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, tailOffset, expect, update);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("compareAndSetTail() error", e.getCause());
         }
     }
 
@@ -2193,8 +2190,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
                     new Class<?>[]{Object.class, long.class, int.class, int.class},
                     node, waitStatusOffset, expect, update);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("compareAndSetWaitStatus() error", e.getCause());
         }
     }
 
@@ -2207,8 +2203,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     node, nextOffset, expect, update);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("compareAndSetNext() error", e.getCause());
         }
     }
 }

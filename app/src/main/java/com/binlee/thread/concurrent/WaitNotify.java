@@ -18,6 +18,6 @@ public final class WaitNotify {
     private void run0() {
         final HandlerThread thread = new HandlerThread("HandlerThread");
         thread.start();
-        sLogger.log("run() looper: " + thread.getLooper());
+        sLogger.v("run() looper: " + thread.getLooper());
     }
 }

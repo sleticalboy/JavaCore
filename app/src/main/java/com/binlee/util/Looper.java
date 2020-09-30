@@ -26,7 +26,7 @@ public final class Looper {
     }
 
     public static void loop() {
-        sLogger.log("loop() running...");
+        sLogger.v("loop() running...");
     }
 
     public Thread getThread() {

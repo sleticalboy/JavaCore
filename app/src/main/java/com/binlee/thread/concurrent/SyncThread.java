@@ -22,7 +22,7 @@ public final class SyncThread {
 
     public static void run() {
         final SyncThread sync = new SyncThread();
-        sLogger.log("main() start sValue: " + sync.mValue);
+        sLogger.v("main() start sValue: " + sync.mValue);
         final Thread[] threads = new Thread[10];
         for (int i = 0; i < threads.length; i++) {
             threads[i] = new Thread(sync.getRunnable(i), "Thread#" + i);
@@ -38,10 +38,10 @@ public final class SyncThread {
                 t.join();
                 // Object#wait() 方法, wait 的是调用 wait() 方法的线程
             } catch (InterruptedException e) {
-                sLogger.err(t.getName() + " join() error.", e);
+                sLogger.e(t.getName() + " join() error.", e);
             }
         }
-        sLogger.log("main() end sValue: " + sync.mValue);
+        sLogger.v("main() end sValue: " + sync.mValue);
     }
 
     private Runnable getRunnable(final int index) {
@@ -68,7 +68,7 @@ public final class SyncThread {
         }
         try {
             for (; mValue < 10000; mValue++) {
-                sLogger.log(desc + " run() mValue: " + mValue);
+                sLogger.v(desc + " run() mValue: " + mValue);
             }
         } finally {
             mMutex.unlock();
@@ -83,7 +83,7 @@ public final class SyncThread {
         }
         try {
             for (; mValue < 10000; mValue++) {
-                sLogger.log(desc + " run() mValue: " + mValue);
+                sLogger.v(desc + " run() mValue: " + mValue);
             }
         } finally {
             mReentrantLock.unlock();
@@ -93,7 +93,7 @@ public final class SyncThread {
     private void calcSync_3(String desc) {
         synchronized (mLock) {
             for (; mValue < 10000; mValue++) {
-                sLogger.log(desc + " run() mValue: " + mValue);
+                sLogger.v(desc + " run() mValue: " + mValue);
             }
         }
     }
@@ -102,21 +102,21 @@ public final class SyncThread {
         // 非静态同步方法的锁对象是当前方法调用者的实例对象，即 this
         // 静态同步方法的锁对象是当前类在 JVM 中 Class<?> 的实例对象，即 this
         for (; mValue < 10000; mValue++) {
-            sLogger.log(desc + " run() mValue: " + mValue);
+            sLogger.v(desc + " run() mValue: " + mValue);
         }
     }
 
     private void calcSync_1(String desc) {
         synchronized (this) {
             for (; mValue < 10000; mValue++) {
-                sLogger.log(desc + " run() mValue: " + mValue);
+                sLogger.v(desc + " run() mValue: " + mValue);
             }
         }
     }
 
     private void calc(String desc) {
         for (; mValue < 10000; mValue++) {
-            sLogger.log(desc + " run() mValue: " + mValue);
+            sLogger.v(desc + " run() mValue: " + mValue);
         }
     }
 }

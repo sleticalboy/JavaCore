@@ -36,20 +36,20 @@ public final class DeadLock {
         new Thread("Thread-1") {
             @Override
             public void run() {
-                sLogger.log(getName() + " trying acquire lock A");
+                sLogger.v(getName() + " trying acquire lock A");
                 synchronized (mLockA) {
-                    sLogger.log(getName() + " holding acquire lock A");
+                    sLogger.v(getName() + " holding acquire lock A");
                     try {
                         Thread.sleep(500L);
                     } catch (InterruptedException e) {
-                        sLogger.err(getName() + " sleep(500) error.", e);
+                        sLogger.e(getName() + " sleep(500) error.", e);
                     }
-                    sLogger.log(getName() + " trying acquire lock B");
+                    sLogger.v(getName() + " trying acquire lock B");
                     synchronized (mLockB) {
-                        sLogger.log(getName() + " holding acquire lock B");
-                        sLogger.log(getName() + " released acquire lock B");
+                        sLogger.v(getName() + " holding acquire lock B");
+                        sLogger.v(getName() + " released acquire lock B");
                     }
-                    sLogger.log(getName() + " released acquire lock A");
+                    sLogger.v(getName() + " released acquire lock A");
                 }
             }
         }.start();
@@ -79,20 +79,20 @@ public final class DeadLock {
         new Thread("Thread-3") {
             @Override
             public void run() {
-                sLogger.log(getName() + " trying acquire lock A");
+                sLogger.v(getName() + " trying acquire lock A");
                 synchronized (mLockA) {
-                    sLogger.log(getName() + " holding acquire lock A");
+                    sLogger.v(getName() + " holding acquire lock A");
                     try {
                         Thread.sleep(500L);
                     } catch (InterruptedException e) {
-                        sLogger.err(getName() + " sleep(500) error.", e);
+                        sLogger.e(getName() + " sleep(500) error.", e);
                     }
-                    sLogger.log(getName() + " trying acquire lock B");
+                    sLogger.v(getName() + " trying acquire lock B");
                     synchronized (mLockB) {
-                        sLogger.log(getName() + " holding acquire lock B");
-                        sLogger.log(getName() + " released acquire lock B");
+                        sLogger.v(getName() + " holding acquire lock B");
+                        sLogger.v(getName() + " released acquire lock B");
                     }
-                    sLogger.log(getName() + " released acquire lock A");
+                    sLogger.v(getName() + " released acquire lock A");
                 }
             }
         }.start();

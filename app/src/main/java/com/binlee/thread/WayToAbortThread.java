@@ -37,15 +37,15 @@ public final class WayToAbortThread {
             public void run() {
                 while (mStarted && !interrupted()) {
                     mPercent++;
-                    sLogger.log("download percent is " + mPercent + "%");
+                    sLogger.v("download percent is " + mPercent + "%");
                     try {
                         Thread.sleep(500L);
                     } catch (InterruptedException e) {
-                        sLogger.err(getName() + " is interrupted", e);
+                        sLogger.e(getName() + " is interrupted", e);
                         break;
                     }
                 }
-                sLogger.log(getName() + " exit mStarted: " + mStarted + ", interrupted: " + isInterrupted());
+                sLogger.v(getName() + " exit mStarted: " + mStarted + ", interrupted: " + isInterrupted());
             }
         };
         mThread.start();
@@ -56,7 +56,7 @@ public final class WayToAbortThread {
         try {
             Thread.sleep(10000L);
         } catch (InterruptedException e) {
-            sLogger.err("main thread is interrupted", e);
+            sLogger.e("main thread is interrupted", e);
         }
         mStarted = false;
     }
@@ -65,7 +65,7 @@ public final class WayToAbortThread {
         try {
             Thread.sleep(10000L);
         } catch (InterruptedException e) {
-            sLogger.err("main thread is interrupted", e);
+            sLogger.e("main thread is interrupted", e);
         }
         if (mThread != null) {
             mThread.interrupt();

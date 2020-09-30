@@ -33,7 +33,7 @@ public class HandlerThread extends Thread {
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    sLogger.err("getLooper() error.", e);
+                    sLogger.e("getLooper() error.", e);
                 }
             }
         }
