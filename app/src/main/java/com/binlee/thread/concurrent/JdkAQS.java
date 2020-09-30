@@ -1,8 +1,9 @@
 package com.binlee.thread.concurrent;
 
-import sun.misc.Unsafe;
+import com.binlee.reflect.Reflects;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -308,7 +309,15 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         // CAS: compare and swap
         // 当内存中的值(M)与预期值(E)相同时，才设置新值(N)
         // See below for intrinsics setup to support this
-        return getUnsafe().compareAndSwapInt(this, stateOffset, expect, update);
+        try {
+            // return getUnsafe().compareAndSwapInt(this, stateOffset, expect, update);
+            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
+                    new Class[]{Object.class, long.class, int.class, int.class},
+                    this, stateOffset, expect, update);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // Queuing utilities
@@ -2102,7 +2111,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * are at it, we do the same for other CASable fields (which could
      * otherwise be done with atomic field updaters).
      */
-    private static Unsafe sUnsafe;
+    private static Object sUnsafe;
     private static final long stateOffset;
     private static final long headOffset;
     private static final long tailOffset;
@@ -2111,23 +2120,37 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     static {
         try {
-            stateOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("state"));
-            headOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("head"));
-            tailOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("tail"));
-            waitStatusOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("waitStatus"));
-            nextOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("next"));
+            // stateOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("state"));
+            System.out.println("JdkAQS static init: " + getUnsafe());
+            stateOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
+                    JdkAQS.class.getDeclaredField("state"));
+
+            // headOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("head"));
+            headOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
+                    JdkAQS.class.getDeclaredField("head"));
+
+            // tailOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("tail"));
+            tailOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
+                    JdkAQS.class.getDeclaredField("tail"));
+
+            // waitStatusOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("waitStatus"));
+            waitStatusOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
+                    Node.class.getDeclaredField("waitStatus"));
+
+            // nextOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("next"));
+            nextOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
+                    Node.class.getDeclaredField("next"));
         } catch (Exception ex) {
             throw new Error(ex);
         }
     }
 
-    private static Unsafe getUnsafe() {
+    private static Object getUnsafe() {
         if (sUnsafe == null) {
             try {
-                final Field field = Unsafe.class.getDeclaredField("theUnsafe");
-                field.setAccessible(true);
-                sUnsafe = (Unsafe) field.get(null);
-            } catch (NoSuchFieldException | IllegalAccessException ignore) {
+                sUnsafe = Reflects.getStaticField("sun.misc.Unsafe", "theUnsafe");
+            } catch (NoSuchFieldException | IllegalAccessException | ClassNotFoundException e) {
+                System.out.println("JdkAQS.getUnsafe() error: " + e);
             }
         }
         return sUnsafe;
@@ -2137,27 +2160,55 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * CAS head field. Used only by enq.
      */
     private boolean compareAndSetHead(Node update) {
-        return getUnsafe().compareAndSwapObject(this, headOffset, null, update);
+        try {
+            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+                    new Class<?>[]{Object.class, long.class, Object.class, Object.class},
+                    this, headOffset, null, update);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * CAS tail field. Used only by enq.
      */
     private boolean compareAndSetTail(Node expect, Node update) {
-        return getUnsafe().compareAndSwapObject(this, tailOffset, expect, update);
+        try {
+            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+                    new Class<?>[]{Object.class, long.class, Object.class, Object.class},
+                    this, tailOffset, expect, update);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * CAS waitStatus field of a node.
      */
     private static boolean compareAndSetWaitStatus(Node node, int expect, int update) {
-        return getUnsafe().compareAndSwapInt(node, waitStatusOffset, expect, update);
+        try {
+            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
+                    new Class<?>[]{Object.class, long.class, int.class, int.class},
+                    node, waitStatusOffset, expect, update);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * CAS next field of a node.
      */
     private static boolean compareAndSetNext(Node node, Node expect, Node update) {
-        return getUnsafe().compareAndSwapObject(node, nextOffset, expect, update);
+        try {
+            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+                    new Class<?>[]{Object.class, long.class, Object.class, Object.class},
+                    node, nextOffset, expect, update);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

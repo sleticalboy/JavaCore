@@ -1,7 +1,5 @@
 package com.binlee.thread.concurrent;
 
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-
 /**
  * @author binli sleticalboy@gmail.com
  * created by IDEA 2020/9/27
@@ -34,7 +32,7 @@ public final class Mutex {
         return mSync.isHeldExclusively();
     }
 
-    private static final class Sync extends AbstractQueuedSynchronizer {
+    private static final class Sync extends JdkAQS {
 
         protected Sync() {
             super();
