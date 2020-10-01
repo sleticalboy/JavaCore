@@ -1,9 +1,9 @@
 package com.binlee.thread.concurrent;
 
+import com.binlee.reflect.ReflectException;
 import com.binlee.reflect.Reflects;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -314,7 +314,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
                     new Class[]{Object.class, long.class, int.class, int.class},
                     this, stateOffset, expect, update);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetState() error", e.getCause());
         }
     }
@@ -2148,7 +2148,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         if (sUnsafe == null) {
             try {
                 sUnsafe = Reflects.getStaticField("sun.misc.Unsafe", "theUnsafe");
-            } catch (NoSuchFieldException | IllegalAccessException | ClassNotFoundException e) {
+            } catch (ReflectException e) {
                 throw new RuntimeException("getUnsafe() error", e.getCause());
             }
         }
@@ -2163,7 +2163,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, headOffset, null, update);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetHead() error", e.getCause());
         }
     }
@@ -2176,7 +2176,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, tailOffset, expect, update);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetTail() error", e.getCause());
         }
     }
@@ -2189,7 +2189,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
                     new Class<?>[]{Object.class, long.class, int.class, int.class},
                     node, waitStatusOffset, expect, update);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetWaitStatus() error", e.getCause());
         }
     }
@@ -2202,7 +2202,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
             return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     node, nextOffset, expect, update);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetNext() error", e.getCause());
         }
     }
