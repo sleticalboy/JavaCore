@@ -1,4 +1,4 @@
-package com.binlee.design.factory;
+package com.binlee.design;
 
 /**
  * @author binli sleticalboy@gmail.com

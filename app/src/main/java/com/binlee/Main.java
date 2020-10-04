@@ -23,7 +23,7 @@ public final class Main {
         // DeadLock.run();
         // WaitNotify.run();
         // Person.run();
-        // Design.run(args);
-        Logger.run(args);
+        Design.run(args);
+        // Logger.run(args);
     }
 }
