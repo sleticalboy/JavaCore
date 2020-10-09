@@ -14,6 +14,9 @@ public final class ServiceManager {
 
     private final Map<String, Class<?>> mServices = new ConcurrentHashMap<>();
 
+    private ServiceManager() {
+    }
+
     public void addService(String key, Class<?> service) {
         synchronized (mServices) {
             mServices.putIfAbsent(key, service);

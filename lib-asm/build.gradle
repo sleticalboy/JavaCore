@@ -8,6 +8,5 @@ dependencies {
     implementation project(":lib-annotation")
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-util:7.1'
-    implementation 'org.ow2.asm:asm-common:7.1'
     implementation 'org.ow2.asm:asm-tree:7.1'
 }

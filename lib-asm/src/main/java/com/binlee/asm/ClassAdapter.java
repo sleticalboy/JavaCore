@@ -76,6 +76,12 @@ public final class ClassAdapter extends ClassVisitor implements Opcodes {
         }
 
         @Override
+        public void visitOuterClass(String owner, String name, String descriptor) {
+            System.out.println("visitOuterClass() called with: owner = [" + owner + "], name = [" + name + "], descriptor = [" + descriptor + "]");
+            super.visitOuterClass(owner, name, descriptor);
+        }
+
+        @Override
         public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
             System.out.println("visitAnnotation() descriptor: " + descriptor + ", visible: " + visible + "");
             return super.visitAnnotation(descriptor, visible);
@@ -88,48 +94,39 @@ public final class ClassAdapter extends ClassVisitor implements Opcodes {
         }
 
         @Override
+        public void visitAttribute(Attribute attribute) {
+            System.out.println("visitAttribute() called with: attribute = [" + attribute + "]");
+            super.visitAttribute(attribute);
+        }
+
+        @Override
+        public void visitInnerClass(String name, String outerName, String innerName, int access) {
+            System.out.println("visitInnerClass() called with: name = [" + name + "], outerName = [" + outerName + "], innerName = [" + innerName + "], access = [" + access + "]");
+            super.visitInnerClass(name, outerName, innerName, access);
+        }
+
+        @Override
+        public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            System.out.println("visitField() called with: access = [" + access + "], name = [" + name + "], descriptor = [" + descriptor + "], signature = [" + signature + "], value = [" + value + "]");
+            return super.visitField(access, name, descriptor, signature, value);
+        }
+
+        @Override
         public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             System.out.println("visitMethod() access: " + access + ", name: " + name + ", descriptor: " + descriptor + ", signature: " + signature + ", exceptions: " + exceptions + "");
-            final MethodVisitor pre = super.visitMethod(access, name, descriptor, signature, exceptions);
-            if ("<init>".equals(name) && "()V".equals(descriptor)) {
-                return new ConstructorAdapter(pre, access, name, descriptor, signature, exceptions);
-            }
-            // if ("addService".equals(name) || "getService".equals(name)) {
-            //     return null;
-            // }
-            Type.getDescriptor(String.class);
-            return pre;
-        }
-
-        @Override
-        public void visitEnd() {
-            super.visitEnd();
-            cv.visitMethod(ACC_PRIVATE, "<init>", "()V", null, null);
-        }
-    }
-
-    private static final class ConstructorAdapter extends MethodVisitor {
-
-        public ConstructorAdapter(MethodVisitor pre, int access, String name, String descriptor, String signature, String[] exceptions) {
-            super(ASM7, pre);
-        }
-
-        @Override
-        public void visitCode() {
-            System.out.println("visitCode() called");
-            super.visitCode();
-        }
-
-        @Override
-        public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-            System.out.println("visitMethodInsn() called with: opcode = [" + opcode + "], owner = [" + owner + "], name = [" + name + "], descriptor = [" + descriptor + "], isInterface = [" + isInterface + "]");
-            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+            return super.visitMethod(access, name, descriptor, signature, exceptions);
         }
 
         @Override
         public void visitEnd() {
             System.out.println("visitEnd() called");
             super.visitEnd();
+            cv.visitInnerClass("com/binlee/design/singleton/ServiceManager$Hello",
+                    "com/binlee/design/singleton/ServiceManager",
+                    "Hello", ACC_PRIVATE | ACC_FINAL | ACC_STATIC);
+            // 会修改当前类的类名
+            // cv.visit(V1_8, ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "com/binlee/design/singleton/ServiceManager$Hello",
+            //         null, "Ljava/lang/Object", null);
         }
     }
 
