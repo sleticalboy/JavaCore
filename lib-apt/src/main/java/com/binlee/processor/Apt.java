@@ -21,8 +21,8 @@ public class Apt extends AbstractProcessor {
 
     private final static List<Class<? extends Annotation>> SUPPORTED_ANNOTATIONS =
             new ArrayList<>(Arrays.asList(
-            Factory.class
-    ));
+                    Factory.class
+            ));
     private final static Set<String> SUPPORTED_ANNOTATION_TYPES;
 
     static {

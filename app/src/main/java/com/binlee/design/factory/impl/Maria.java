@@ -1,17 +1,18 @@
-package com.binlee.design;
+package com.binlee.design.factory.impl;
 
 import com.binlee.annotation.Factory;
+import com.binlee.design.factory.IPerson;
 
 /**
  * @author binli sleticalboy@gmail.com
  * created by IDEA 2020/9/30
  */
-@Factory(name = "Jack", type = IPerson.class)
-public final class Jack implements IPerson {
+@Factory(name = "Maria", type = IPerson.class)
+public final class Maria implements IPerson {
 
     @Override
     public String getName() {
-        return "Jack";
+        return "Maria";
     }
 
     @Override

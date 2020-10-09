@@ -15,6 +15,7 @@ public final class Logger {
     private static final String DEBUG = "\033[36mD/%s: %s\033[0m\n";
     private static final String WARN = "\033[33mW/%s: %s\033[0m\n";
     private static final String ERROR = "\033[31mE/%s: %s\033[0m\n";
+
     private final String mTag;
 
     private Logger(String tag) {
@@ -91,8 +92,6 @@ public final class Logger {
         // System.out.println("\033[1;95m" + "就是酱紫的");
         // System.out.println("\033[1;97m" + "就是酱紫的");
         // System.out.println("\033[1;93;45m" + "就是酱紫的"+"\033[m");
-
-
     }
 
 }

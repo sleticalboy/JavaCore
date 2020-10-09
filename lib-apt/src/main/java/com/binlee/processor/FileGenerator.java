@@ -7,7 +7,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 import java.io.IOException;
 import java.util.Map;
 
@@ -63,9 +62,8 @@ public final class FileGenerator {
     }
 
     private static void generateFactory(ProcessingEnvironment env, @Nonnull FactoryItem items) {
-        final Elements utils = env.getElementUtils();
-        final TypeElement element = utils.getTypeElement(items.parent);
-        final PackageElement pkg = utils.getPackageOf(element);
+        final TypeElement element = env.getElementUtils().getTypeElement(items.parent);
+        final PackageElement pkg = env.getElementUtils().getPackageOf(element);
         final String pkgName = pkg.isUnnamed() ? "com.binlee.apt" : pkg.getQualifiedName().toString();
         Utils.log(env, "generateFactory() for: " + items + ", element: " + element + ", pkg: " + pkgName);
         // start build files
@@ -91,12 +89,11 @@ public final class FileGenerator {
         // throw new IllegalArgumentException("Unknown id: " + id)
         create.addStatement("throw new IllegalArgumentException(\"Unknown id: \" + id)");
 
-        final String className = element.getSimpleName() + "Factory";
-        TypeSpec.Builder clazz = TypeSpec.classBuilder(className.substring(1))
+        TypeSpec.Builder clazz = TypeSpec.classBuilder((element.getSimpleName() + "Factory").substring(1))
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addMethod(constructor.build())
                 .addMethod(create.build());
-        final JavaFile javaFile = JavaFile.builder(pkgName + ".factory", clazz.build())
+        final JavaFile javaFile = JavaFile.builder(pkgName/* + ".factory"*/, clazz.build())
                 .addFileComment("Auto create by APT, do NOT modify.")
                 .skipJavaLangImports(true)
                 .indent("  ")
