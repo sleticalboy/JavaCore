@@ -6,7 +6,7 @@ import java.util.Arrays;
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/10/8
  */
-public final class ClassAdapter {
+public final class AsmMain {
 
     private static final String BASE_DIR = "/home/binli/code/github/java/JavaCore";
 
