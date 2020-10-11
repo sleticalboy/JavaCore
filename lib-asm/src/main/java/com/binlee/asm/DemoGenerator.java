@@ -137,6 +137,7 @@ public class DemoGenerator {
         }
 
         writer.visitEnd();
+        System.out.println("generate() file: " + file);
         final FileOutputStream fos = new FileOutputStream(file, false);
         fos.write(writer.toByteArray());
         fos.close();

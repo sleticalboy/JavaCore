@@ -1,5 +1,7 @@
 package com.binlee.asm;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -8,7 +10,19 @@ import java.util.Arrays;
  */
 public final class AsmMain {
 
-    private static final String BASE_DIR = "/home/binli/code/github/java/JavaCore";
+    private static final String BASE_DIR;
+
+    static {
+        String baseDir;
+        try {
+            baseDir = getBaseDir();
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseDir = null;
+        }
+        System.out.println("baseDir: " + baseDir);
+        BASE_DIR = baseDir;
+    }
 
     public static void run(String... args) {
         System.out.println("run() called with: args = [" + Arrays.toString(args) + "]");
@@ -27,5 +41,19 @@ public final class AsmMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getBaseDir() throws Exception {
+        final InputStream is = Runtime.getRuntime().exec("pwd").getInputStream();
+        int len;
+        final byte[] buffer = new byte[1024];
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        while ((len = is.read(buffer)) != -1) {
+            baos.write(buffer, 0, len);
+        }
+        is.close();
+        baos.flush();
+        baos.close();
+        return baos.toString().trim();
     }
 }
