@@ -9,12 +9,18 @@ import javax.tools.Diagnostic;
  */
 public final class Utils {
 
+    static boolean sDebuggable = false;
+
     public static void log(ProcessingEnvironment env, Object obj) {
-        env.getMessager().printMessage(Diagnostic.Kind.NOTE, extract(obj));
+        if (sDebuggable) {
+            env.getMessager().printMessage(Diagnostic.Kind.NOTE, extract(obj));
+        }
     }
 
     public static void logE(ProcessingEnvironment env, Object obj) {
-        env.getMessager().printMessage(Diagnostic.Kind.ERROR, extract(obj));
+        if (sDebuggable) {
+            env.getMessager().printMessage(Diagnostic.Kind.ERROR, extract(obj));
+        }
     }
 
     private static String extract(Object obj) {

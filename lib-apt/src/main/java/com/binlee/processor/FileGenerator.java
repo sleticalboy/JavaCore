@@ -16,7 +16,15 @@ import java.util.Map;
  */
 public final class FileGenerator {
 
+    private static boolean sHasDemo = false;
+    private static boolean sHasFactories = false;
+
     public static void demo(ProcessingEnvironment env, String tag) {
+        if (sHasDemo) {
+            return;
+        }
+        Utils.log(env, "generate demo...");
+        sHasDemo = true;
         // fields
         final FieldSpec.Builder version = FieldSpec.builder(String.class, "mVersion")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
@@ -50,6 +58,11 @@ public final class FileGenerator {
     }
 
     public static void factories(ProcessingEnvironment env, Map<String, FactoryItem> map) {
+        if (sHasFactories) {
+            return;
+        }
+        Utils.log(env, "generate factories...");
+        sHasFactories = true;
         if (map.size() != 0) {
             for (String fullName : map.keySet()) {
                 final FactoryItem items = map.get(fullName);

@@ -8,6 +8,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -51,13 +52,11 @@ public class Apt extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        if (roundEnv.processingOver()) {
-            FileGenerator.demo(processingEnv, getClass().getName());
-            FileGenerator.factories(processingEnv, mItemMap);
-            return false;
-        } else {
-            processImpl(annotations, roundEnv);
-        }
+        // fix: File for type 'xxx' created in the last round will not be subject to annotation
+        // processing.
+        processImpl(annotations, roundEnv);
+        FileGenerator.demo(processingEnv, getClass().getName());
+        FileGenerator.factories(processingEnv, mItemMap);
         return true;
     }
 
