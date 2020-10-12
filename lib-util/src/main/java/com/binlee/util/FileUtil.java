@@ -16,6 +16,7 @@ public final class FileUtil {
     }
 
     public static String getRootDir() throws IOException {
+        // 默认情况下new File("")代表的目录为：System.getProperty("user.dir")
         return new File("").getCanonicalPath();
     }
 
