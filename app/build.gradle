@@ -16,4 +16,5 @@ dependencies {
     implementation project(":lib-annotation")
     annotationProcessor project(":lib-apt")
     implementation project(":lib-asm")
+    implementation project(":lib-util")
 }

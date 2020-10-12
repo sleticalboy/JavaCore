@@ -1,7 +1,7 @@
 package com.binlee.asm;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import com.binlee.util.FileUtil;
+
 import java.util.Arrays;
 
 /**
@@ -15,7 +15,7 @@ public final class AsmMain {
     static {
         String baseDir;
         try {
-            baseDir = getBaseDir();
+            baseDir = FileUtil.getRootDir();
         } catch (Exception e) {
             e.printStackTrace();
             baseDir = null;
@@ -41,19 +41,5 @@ public final class AsmMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static String getBaseDir() throws Exception {
-        final InputStream is = Runtime.getRuntime().exec("pwd").getInputStream();
-        int len;
-        final byte[] buffer = new byte[1024];
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        while ((len = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        is.close();
-        baos.flush();
-        baos.close();
-        return baos.toString().trim();
     }
 }

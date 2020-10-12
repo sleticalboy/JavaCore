@@ -6,6 +6,7 @@ targetCompatibility = "1.8"
 dependencies {
     testImplementation 'junit:junit:4.12'
     compileOnly project(":lib-annotation")
+    compileOnly project(":lib-util")
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-util:7.1'
     implementation 'org.ow2.asm:asm-tree:7.1'

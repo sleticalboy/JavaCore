@@ -15,8 +15,8 @@ public class ServiceGenerator implements Opcodes {
     public static void generate(String file) throws Exception {
         final File dest = new File(file);
         if (dest.exists()) {
-            System.out.println("delete " + file + ": " + dest.delete());
-            System.out.println("create new " + file + ": " + dest.createNewFile());
+            System.out.println("delete " + dest.getName() + ": " + dest.delete());
+            System.out.println("create " + dest.getName() + ": " + dest.createNewFile());
         }
         final FileOutputStream fos = new FileOutputStream(file, false);
         fos.write(dump());
@@ -27,7 +27,7 @@ public class ServiceGenerator implements Opcodes {
         // final Method method = clazz.getDeclaredMethod("getInstance");
         // final Object obj = method.invoke(null);
         // System.out.println("getInstance(): " + obj);
-        ASMifier.main(new String[]{"-debug", clazz.getCanonicalName()});
+        // ASMifier.main(new String[]{"-debug", clazz.getCanonicalName()});
     }
 
     private static byte[] dump() {

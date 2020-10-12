@@ -1,6 +1,7 @@
+rootProject.name = 'JavaCore'
+
 include ':app'
 include ':lib-annotation'
 include ':lib-apt'
 include ':lib-asm'
-
-rootProject.name = 'JavaCore'
+include ':lib-util'
