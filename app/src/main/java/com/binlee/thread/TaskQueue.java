@@ -1,4 +1,4 @@
-package com.binlee.util;
+package com.binlee.thread;
 
 import java.util.*;
 import java.util.concurrent.locks.*;

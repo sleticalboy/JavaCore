@@ -8,7 +8,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -38,6 +37,7 @@ public class Apt extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+        Utils.log(processingEnv, new Exception("init() -------------------->"));
     }
 
     @Override
@@ -52,11 +52,12 @@ public class Apt extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        Utils.log(processingEnv, new Exception("process() -------------------->"));
         // fix: File for type 'xxx' created in the last round will not be subject to annotation
         // processing.
         processImpl(annotations, roundEnv);
         FileGenerator.demo(processingEnv, getClass().getName());
-        FileGenerator.factories(processingEnv, mItemMap);
+        // FileGenerator.factories(processingEnv, mItemMap);
         return true;
     }
 

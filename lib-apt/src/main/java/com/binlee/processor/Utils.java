@@ -24,6 +24,14 @@ public final class Utils {
     }
 
     private static String extract(Object obj) {
+        if (obj instanceof Throwable) {
+            final StringBuilder buffer = new StringBuilder();
+            buffer.append(((Throwable) obj).getMessage()).append('\n');
+            for (StackTraceElement ste : ((Throwable) obj).getStackTrace()) {
+                buffer.append(ste.toString()).append('\n');
+            }
+            return buffer.toString();
+        }
         return obj instanceof String ? ((String) obj) : obj == null ? "{null}" : obj.toString();
     }
 }

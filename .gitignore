@@ -10,8 +10,8 @@ hs_err_pid*
 # IntelliJ IDEA
 *.iml
 /.idea
-/out
-/lib-apt/out/
-/lib-apt/dist/
+**/out
+**/dist/
 /.gradle/
+**/build/
 local.properties

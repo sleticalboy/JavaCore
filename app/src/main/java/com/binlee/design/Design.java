@@ -2,6 +2,7 @@ package com.binlee.design;
 
 import com.binlee.asm.AsmMain;
 import com.binlee.design.singleton.ServiceManager;
+import com.binlee.util.Logger;
 
 import java.lang.reflect.Method;
 
@@ -10,6 +11,8 @@ import java.lang.reflect.Method;
  * created by IDEA 2020/9/30
  */
 public final class Design {
+
+    private static final Logger sLogger = Logger.get(Design.class);
 
     public static void run(String... args) {
         AsmMain.run(args);
@@ -25,7 +28,7 @@ public final class Design {
             // manager.addService("hello", Design.class);
             // System.out.println("hello -> " + manager.getService("hello"));
         } catch (Exception e) {
-            e.printStackTrace();
+            sLogger.e("run() error: " + e, e);
         }
     }
 }
