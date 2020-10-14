@@ -57,7 +57,7 @@ public class Apt extends AbstractProcessor {
         // processing.
         processImpl(annotations, roundEnv);
         FileGenerator.demo(processingEnv, getClass().getName());
-        // FileGenerator.factories(processingEnv, mItemMap);
+        FileGenerator.factories(processingEnv, mItemMap);
         return true;
     }
 
@@ -70,11 +70,10 @@ public class Apt extends AbstractProcessor {
                 continue;
             }
             for (final Element e : elements) {
-                Utils.log(processingEnv, "processImpl() -> " + e + ", kind: " + e.getKind());
+                Utils.log(processingEnv, "processImpl() -> " + Utils.printObj(e) + ", kind: " + e.getKind());
                 if (e.getKind() == ElementKind.CLASS) {
                     final Annotation annotation = e.getAnnotation(a);
                     if (annotation instanceof Factory) {
-                        // resolveFactory((TypeElement) e);
                         AnnotationResolver.factory(mItemMap, (TypeElement) e);
                     }
                 }

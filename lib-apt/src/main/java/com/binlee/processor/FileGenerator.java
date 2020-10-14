@@ -102,8 +102,9 @@ public final class FileGenerator {
         // throw new IllegalArgumentException("Unknown id: " + id)
         create.addStatement("throw new IllegalArgumentException(\"Unknown id: \" + id)");
 
-        TypeSpec.Builder clazz = TypeSpec.classBuilder((element.getSimpleName() + "Factory").substring(1))
+        TypeSpec.Builder clazz = TypeSpec.classBuilder((element.getSimpleName() + "Factory_gen").substring(1))
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                // .addOriginatingElement()
                 .addMethod(constructor.build())
                 .addMethod(create.build());
         final JavaFile javaFile = JavaFile.builder(pkgName/* + ".factory"*/, clazz.build())
