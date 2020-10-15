@@ -75,6 +75,10 @@ public final class Utils {
             // resource variable, or exception parameter
             // 表示字段，常量，方法或构造函数参数，局部变量，资源变量或异常参数
             dumpVariable(((VariableElement) obj));
+        } else if (obj instanceof PackageElement) {
+            // a package program element
+            // 表示包
+            dumpPackage(((PackageElement) obj));
         }
     }
 
@@ -113,43 +117,43 @@ public final class Utils {
     }
 
     private static void dumpVariable0(TypeVariable obj) {
-        Log.d(TAG, "dumpVariable0() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpVariable0() ------> " + getObjInfo(obj));
     }
 
     private static void dumpError(ErrorType obj) {
-        Log.d(TAG, "dumpError() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpError() ------> " + getObjInfo(obj));
     }
 
     private static void dumpNull(NullType obj) {
-        Log.d(TAG, "dumpNull() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpNull() ------> " + getObjInfo(obj));
     }
 
     private static void dumpArray(ArrayType obj) {
-        Log.d(TAG, "dumpArray() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpArray() ------> " + getObjInfo(obj));
     }
 
     private static void dumpWildcard(WildcardType obj) {
-        Log.d(TAG, "dumpWildcard() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpWildcard() ------> " + getObjInfo(obj));
     }
 
     private static void dumpPrimitive(PrimitiveType obj) {
-        Log.d(TAG, "dumpPrimitive() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpPrimitive() ------> " + getObjInfo(obj));
     }
 
     private static void dumpNo(NoType obj) {
-        Log.d(TAG, "dumpNo() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpNo() ------> " + getObjInfo(obj));
     }
 
     private static void dumpExecutable0(ExecutableType obj) {
-        Log.d(TAG, "dumpExecutable0() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.i(TAG, "dumpExecutable0() ------> " + getObjInfo(obj));
     }
 
     private static void dumpIntersection(IntersectionType obj) {
-        Log.d(TAG, "dumpIntersection() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpIntersection() ------> " + getObjInfo(obj));
     }
 
     private static void dumpUnion(UnionType obj) {
-        Log.d(TAG, "dumpNinon() ------> " + getCls(obj).getName() + "@" + obj.hashCode() + ", kind: " + obj.getKind());
+        Log.d(TAG, "dumpNinon() ------> " + getObjInfo(obj));
     }
 
     private static void dumpFormalParameter(TypeParameterElement param) {
@@ -161,7 +165,7 @@ public final class Utils {
     }
 
     private static void dumpType(TypeElement type) {
-        Log.d(TAG, "dumpType() ------> " + getCls(type).getName() + "@" + type.hashCode() + ", kind: " + type.getKind());
+        Log.i(TAG, "dumpType() ------> " + getObjInfo(type));
         final Element enclosingElement = type.getEnclosingElement();
         Log.d(TAG, "enclosingElement(包名): " + enclosingElement);
         dumpObj(enclosingElement);
@@ -195,15 +199,20 @@ public final class Utils {
     }
 
     private static void dumpPackage(PackageElement pkg) {
-        Log.d(TAG, "dumpPackage() ------> " + getCls(pkg).getName() + "@" + pkg.hashCode() + ", kind: " + pkg.getKind());
+        Log.i(TAG, "dumpPackage() ------> " + getObjInfo(pkg));
+        Log.d(TAG, "pkg: " + pkg.getQualifiedName() + ", simple: " + pkg.getSimpleName());
+        Log.d(TAG, "enclosing element: " + pkg.getEnclosingElement());
+        Log.d(TAG, "enclosed elements: " + pkg.getEnclosedElements());
+        Log.d(TAG, "is unnamed: " + pkg.isUnnamed());
+        Log.d(TAG, "asType: " + pkg.asType());
     }
 
     private static void dumpConstructor(Element element) {
-        Log.d(TAG, "dumpPackage() ------> " + getCls(element).getName() + "@" + element.hashCode() + ", kind: " + element.getKind());
+        Log.d(TAG, "dumpConstructor() ------> " + getObjInfo(element));
     }
 
     private static void dumpExecutable(ExecutableElement ele) {
-        Log.d(TAG, "dumpExecutable() ------> " + getCls(ele).getName() + "@" + ele.hashCode() + ", kind: " + ele.getKind());
+        Log.i(TAG, "dumpExecutable() ------> " + getObjInfo(ele));
         Log.d(TAG, "simpleName(方法名): " + ele.getSimpleName());
         final TypeMirror mirror = ele.asType();
         Log.d(TAG, "asType(参数及返回值类型): " + mirror);
@@ -217,10 +226,16 @@ public final class Utils {
         Log.d(TAG, "isDefault(): " + ele.isDefault() + ", isVarArgs(): " + ele.isVarArgs());
     }
 
-    public static Class<?> getCls(Object obj) {
+    public static String getObjInfo(Object obj) {
         if (null == obj) {
             return null;
         }
-        return obj.getClass();
+        String msg = obj.getClass().getName() + "@" + obj.hashCode();
+        if (obj instanceof Element) {
+            msg += ", kind: " + ((Element) obj).getKind();
+        } else if (obj instanceof TypeMirror) {
+            msg += ", kind: " + ((TypeMirror) obj).getKind();
+        }
+        return msg;
     }
 }
