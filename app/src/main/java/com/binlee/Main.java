@@ -9,6 +9,7 @@ import com.binlee.thread.concurrent.DeadLock;
 import com.binlee.thread.concurrent.SyncThread;
 import com.binlee.thread.concurrent.WaitNotify;
 import com.binlee.util.Logger;
+import com.binlee.util.Statistics;
 
 public final class Main {
 
@@ -23,7 +24,8 @@ public final class Main {
         // DeadLock.run();
         // WaitNotify.run();
         // Person.run();
-        Design.run(args);
+        // Design.run(args);
         // Logger.run(args);
+        Statistics.run(new String[]{"/home/binli/Documents/work-log-quarter-3.md", "Bug#\\d{6}"});
     }
 }
