@@ -71,13 +71,14 @@ public class Apt extends AbstractProcessor {
                 continue;
             }
             for (final Element e : elements) {
-                Utils.log(processingEnv, "processImpl() -> " + Utils.dumpObj(e) + ", kind: " + e.getKind());
+                Utils.log(processingEnv, "processImpl() -> " + e + ", kind: " + e.getKind());
                 if (e.getKind() == ElementKind.CLASS) {
                     final Annotation annotation = e.getAnnotation(a);
                     if (annotation instanceof Factory) {
                         AnnotationResolver.factory(mItemMap, (TypeElement) e);
                     }
                 }
+                Utils.dumpObj(e);
             }
         }
         Utils.log(processingEnv, "processImpl() end with: " + mItemMap);

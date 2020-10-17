@@ -26,6 +26,6 @@ public final class Main {
         // Person.run();
         // Design.run(args);
         // Logger.run(args);
-        Statistics.run(new String[]{"/home/binli/Documents/work-log-quarter-3.md", "Bug#\\d{6}"});
+        // Statistics.run(new String[]{"/home/binli/Documents/work-log-quarter-3.md", "Bug#\\d{6}"});
     }
 }

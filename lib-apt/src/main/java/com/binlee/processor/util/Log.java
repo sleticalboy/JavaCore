@@ -13,22 +13,20 @@ public final class Log {
     private static final String WARN = "\033[33mW/%s: %s\033[0m\n";
     private static final String ERROR = "\033[31mE/%s: %s\033[0m\n";
 
-    private static final String TAG = "Utils";
-
     public static void v(String tag, String msg) {
         printf(VERBOSE, tag, msg);
     }
 
     public static void i(String tag, String msg) {
-        printf(INFO, TAG, msg);
+        printf(INFO, tag, msg);
     }
 
     public static void d(String tag, String msg) {
-        printf(DEBUG, TAG, msg);
+        printf(DEBUG, tag, msg);
     }
 
     public static void w(String tag, String msg) {
-        printf(WARN, TAG, msg);
+        printf(WARN, tag, msg);
     }
 
     public static void e(String tag, String msg) {

@@ -13,6 +13,14 @@ import java.util.Map;
 @Factory(type = IShape.class, name = "Circle")
 public final class Circle implements IShape {
 
+    static {
+        // static init
+    }
+
+    {
+        // common init
+    }
+
     public Circle() {
         //
     }
@@ -33,5 +41,22 @@ public final class Circle implements IShape {
 
     public Object foo(String foo, Map<String, String> owners, Object... args) throws IOException {
         return null;
+    }
+
+    private static void foo() {}
+
+    class Inner {}
+
+    @Factory(name = "InnerShape", type = IShape.class)
+    public static class InnerShape implements IShape {
+        @Override
+        public String getShape() {
+            return null;
+        }
+
+        @Override
+        public void draw() {
+
+        }
     }
 }

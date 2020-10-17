@@ -40,13 +40,12 @@ public final class Utils {
         return obj instanceof String ? ((String) obj) : obj == null ? "{null}" : obj.toString();
     }
 
-    private static Object sObj;
-
-    public static String dumpObj(Object obj) {
-        if (obj == sObj) {
-            return null;
+    private static boolean sFlag = false;
+    public static void dumpObj(Object obj) {
+        if (sFlag) {
+            return;
         }
-        sObj = obj;
+        sFlag = true;
         if (obj instanceof Element) {
             // Element family
             dumpElementFamily(((Element) obj));
@@ -54,7 +53,6 @@ public final class Utils {
             // TypeMirror family
             dumpTypeMirrorFamily(((TypeMirror) obj));
         }
-        return String.valueOf(obj);
     }
 
     private static void dumpElementFamily(Element obj) {
@@ -83,26 +81,15 @@ public final class Utils {
     }
 
     private static void dumpTypeMirrorFamily(TypeMirror obj) {
-        if (obj instanceof TypeVariable) {
-            //
-            dumpVariable0(((TypeVariable) obj));
-        } else if (obj instanceof ErrorType) {
-            //
-            dumpError(((ErrorType) obj));
-        } else if (obj instanceof NullType) {
-            //
-            dumpNull(((NullType) obj));
-        } else if (obj instanceof ArrayType) {
-            //
-            dumpArray(((ArrayType) obj));
-        } else if (obj instanceof WildcardType) {
+        if (obj instanceof WildcardType) {
             //
             dumpWildcard(((WildcardType) obj));
         } else if (obj instanceof PrimitiveType) {
             //
             dumpPrimitive(((PrimitiveType) obj));
         } else if (obj instanceof NoType) {
-            //
+            // A pseudo-type used where no actual type is appropriate.
+            // 在没有实际类型的情况下使用的伪类型(void package, the superclass of Object)
             dumpNo(((NoType) obj));
         } else if (obj instanceof ExecutableType) {
             //
@@ -113,110 +100,144 @@ public final class Utils {
         } else if (obj instanceof UnionType) {
             //
             dumpUnion(((UnionType) obj));
+        } else if (obj instanceof ReferenceType) {
+            // 表示引用类型： 包括类和接口，数组，类型变量，空类型
+            if (obj instanceof TypeVariable) {
+                //
+                dumpVariable0(((TypeVariable) obj));
+            } else if (obj instanceof NullType) {
+                //
+                dumpNull(((NullType) obj));
+            } else if (obj instanceof ArrayType) {
+                //
+                dumpArray(((ArrayType) obj));
+            } else if (obj instanceof DeclaredType) {
+                // 类或是接口
+                if (obj instanceof ErrorType) {
+                    //
+                    dumpError(((ErrorType) obj));
+                } else {
+                    Log.i(TAG, "dumpDeclared() -> " + getObjInfo(obj) + " " + obj);
+                }
+            }
         }
     }
 
     private static void dumpVariable0(TypeVariable obj) {
-        Log.d(TAG, "dumpVariable0() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpVariable0() -> " + getObjInfo(obj));
     }
 
     private static void dumpError(ErrorType obj) {
-        Log.d(TAG, "dumpError() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpError() -> " + getObjInfo(obj));
     }
 
     private static void dumpNull(NullType obj) {
-        Log.d(TAG, "dumpNull() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpNull() -> " + getObjInfo(obj));
     }
 
     private static void dumpArray(ArrayType obj) {
-        Log.d(TAG, "dumpArray() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpArray() -> " + getObjInfo(obj));
     }
 
     private static void dumpWildcard(WildcardType obj) {
-        Log.d(TAG, "dumpWildcard() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpWildcard() -> " + getObjInfo(obj));
     }
 
     private static void dumpPrimitive(PrimitiveType obj) {
-        Log.d(TAG, "dumpPrimitive() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpPrimitive() -> " + getObjInfo(obj));
     }
 
     private static void dumpNo(NoType obj) {
-        Log.d(TAG, "dumpNo() ------> " + getObjInfo(obj));
+        Log.i(TAG, "dumpNo() -> " + getObjInfo(obj));
     }
 
     private static void dumpExecutable0(ExecutableType obj) {
-        Log.i(TAG, "dumpExecutable0() ------> " + getObjInfo(obj));
+        Log.i(TAG, "dumpExecutable0() -> " + getObjInfo(obj));
     }
 
     private static void dumpIntersection(IntersectionType obj) {
-        Log.d(TAG, "dumpIntersection() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpIntersection() -> " + getObjInfo(obj));
     }
 
     private static void dumpUnion(UnionType obj) {
-        Log.d(TAG, "dumpNinon() ------> " + getObjInfo(obj));
+        Log.d(TAG, "dumpNinon() -> " + getObjInfo(obj));
     }
 
-    private static void dumpFormalParameter(TypeParameterElement param) {
-        //
+    private static void dumpFormalParameter(TypeParameterElement obj) {
+        Log.i(TAG, "dumpFormalParameter() -> " + getObjInfo(obj));
     }
 
-    private static void dumpVariable(VariableElement var) {
-        //
+    private static void dumpVariable(VariableElement obj) {
+        Log.i(TAG, "dumpVariable() -> " + getObjInfo(obj));
     }
 
-    private static void dumpType(TypeElement type) {
-        Log.i(TAG, "dumpType() ------> " + getObjInfo(type));
-        final Element enclosingElement = type.getEnclosingElement();
+    private static void dumpType(TypeElement obj) {
+        Log.i(TAG, "dumpType() -> " + getObjInfo(obj));
+        // 向上获取为 package（当前元素的内嵌类型为 top-level 时）
+        // 或外部类（当前元素的内嵌类型为 member 时）
+        final Element enclosingElement = obj.getEnclosingElement();
         Log.d(TAG, "enclosingElement(包名): " + enclosingElement);
-        dumpObj(enclosingElement);
-        // reflectDetails(enclosingElement);
 
-        final List<? extends Element> enclosedElements = type.getEnclosedElements();
+        // 向下获取为构造器、内部类、方法, 不包括构造代码块和静态代码块
+        final List<? extends Element> enclosedElements = obj.getEnclosedElements();
         Log.d(TAG, "enclosingElements(方法): " + enclosedElements);
-        if (enclosedElements != null) {
-            for (Element item : enclosedElements) {
-                dumpObj(item);
-                // reflectDetails(item);
-            }
-        }
 
-        final TypeMirror mirror = type.asType();
+        // 获取当前元素所定义的类型
+        final TypeMirror mirror = obj.asType();
         Log.d(TAG, "asType(类名): " + mirror);
-        // printObj(mirror);
 
-        final Name simpleName = type.getSimpleName();
-        Log.d(TAG, "simpleName(简单类名): " + simpleName);
-        // printObj(simpleName);
+        Log.d(TAG, "simpleName(简单类名): " + obj.getSimpleName());
 
-        final List<? extends AnnotationMirror> mirrors = type.getAnnotationMirrors();
+        // 获取注解信息
+        final List<? extends AnnotationMirror> mirrors = obj.getAnnotationMirrors();
         Log.d(TAG, "annotationMirrors(注解信息): " + mirrors);
-        // if (mirrors != null) {
-        //     for (AnnotationMirror am : mirrors) {
-        //         printObj(am);
+        // 获取接口信息
+        Log.d(TAG, "interfaces: " + obj.getInterfaces());
+        // 获取父类信息
+        Log.d(TAG, "super: " + obj.getSuperclass());
+        // 获取当前元素的嵌套类型
+        // top level class: 独立的类，类名与文件名一致
+        // member class: 成员类：非静态内部类与静态内部类
+        // local class: 方法或代码块中的类
+        Log.d(TAG, "nesting kind: " + obj.getNestingKind());
+        Log.d(TAG, "toString(即类名): " + obj);
+
+        // dumpElementFamily(enclosingElement);
+        //
+        // if (enclosedElements != null) {
+        //     for (Element item : enclosedElements) {
+        //         dumpElementFamily(item);
         //     }
         // }
-        Log.d(TAG, "toString(即类名): " + type);
+
+        dumpTypeMirrorFamily(mirror);
     }
 
     private static void dumpPackage(PackageElement pkg) {
-        Log.i(TAG, "dumpPackage() ------> " + getObjInfo(pkg));
+        Log.i(TAG, "dumpPackage() -> " + getObjInfo(pkg));
+        // 获取包全名、简单名
         Log.d(TAG, "pkg: " + pkg.getQualifiedName() + ", simple: " + pkg.getSimpleName());
+        // 向外获取封闭的元素: 如果当前元素的 package 会返回 null
         Log.d(TAG, "enclosing element: " + pkg.getEnclosingElement());
+        // 向内获取封闭的元素：当前包下的类，不包括子包中的类和内部类
         Log.d(TAG, "enclosed elements: " + pkg.getEnclosedElements());
+        // 当前 package 是否未命名
         Log.d(TAG, "is unnamed: " + pkg.isUnnamed());
+        // 获取当前元素所定义的类型
         Log.d(TAG, "asType: " + pkg.asType());
+
+        dumpTypeMirrorFamily(pkg.asType());
     }
 
     private static void dumpConstructor(Element element) {
-        Log.d(TAG, "dumpConstructor() ------> " + getObjInfo(element));
+        Log.d(TAG, "dumpConstructor() -> " + getObjInfo(element));
     }
 
     private static void dumpExecutable(ExecutableElement ele) {
-        Log.i(TAG, "dumpExecutable() ------> " + getObjInfo(ele));
+        Log.i(TAG, "dumpExecutable() -> " + getObjInfo(ele));
         Log.d(TAG, "simpleName(方法名): " + ele.getSimpleName());
         final TypeMirror mirror = ele.asType();
         Log.d(TAG, "asType(参数及返回值类型): " + mirror);
-        dumpObj(mirror);
         Log.d(TAG, "typeParams(形参类型): " + ele.getTypeParameters());
         Log.d(TAG, "defaultValue(): " + ele.getDefaultValue());
         Log.d(TAG, "receiverValue(): " + ele.getReceiverType());
@@ -230,12 +251,27 @@ public final class Utils {
         if (null == obj) {
             return null;
         }
-        String msg = obj.getClass().getName() + "@" + obj.hashCode();
+        String msg = "";
         if (obj instanceof Element) {
-            msg += ", kind: " + ((Element) obj).getKind();
+            msg += "kind: " + ((Element) obj).getKind();
         } else if (obj instanceof TypeMirror) {
-            msg += ", kind: " + ((TypeMirror) obj).getKind();
+            msg += "kind: " + ((TypeMirror) obj).getKind();
+        }
+        msg += " " + getSimple(obj.getClass());
+        final Class<?>[] interfaces = obj.getClass().getInterfaces();
+        if (interfaces.length >= 1) {
+            msg += ", super: " + getSimple(interfaces[0]);
+        } else {
+            msg += ", super: " + getSimple(obj.getClass().getSuperclass());
         }
         return msg;
+    }
+
+    private static String getSimple(Class<?> cls) {
+        if (cls == null) {
+            return "";
+        }
+        final String name = cls.getName();
+        return name.substring(name.lastIndexOf('.') + 1);
     }
 }
