@@ -40,12 +40,7 @@ public final class Utils {
         return obj instanceof String ? ((String) obj) : obj == null ? "{null}" : obj.toString();
     }
 
-    private static boolean sFlag = false;
     public static void dumpObj(Object obj) {
-        if (sFlag) {
-            return;
-        }
-        sFlag = true;
         if (obj instanceof Element) {
             // Element family
             dumpElementFamily(((Element) obj));
@@ -202,8 +197,8 @@ public final class Utils {
         Log.d(TAG, "nesting kind: " + obj.getNestingKind());
         Log.d(TAG, "toString(即类名): " + obj);
 
-        // dumpElementFamily(enclosingElement);
-        //
+        dumpElementFamily(enclosingElement);
+
         // if (enclosedElements != null) {
         //     for (Element item : enclosedElements) {
         //         dumpElementFamily(item);
