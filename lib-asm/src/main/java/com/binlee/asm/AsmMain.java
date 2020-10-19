@@ -37,7 +37,7 @@ public final class AsmMain {
             e.printStackTrace();
         }
         try {
-            ServiceGenerator.generate(BASE_DIR + "/app/build/classes/java/main/com/binlee/design/singleton/ServiceManager.class");
+            // ServiceGenerator.generate(BASE_DIR + "/app/build/classes/java/main/com/binlee/design/singleton/ServiceManager.class");
         } catch (Exception e) {
             e.printStackTrace();
         }

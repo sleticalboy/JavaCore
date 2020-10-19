@@ -1,6 +1,5 @@
 package com.binlee.design;
 
-import com.binlee.asm.AsmMain;
 import com.binlee.design.singleton.ServiceManager;
 import com.binlee.util.Logger;
 
@@ -15,7 +14,6 @@ public final class Design {
     private static final Logger sLogger = Logger.get(Design.class);
 
     public static void run(String... args) {
-        AsmMain.run(args);
         System.out.println("Design.run().....");
         // PersonFactory.create("Tom").sayHello();
         // PersonFactory.create("Jack").sayHello();

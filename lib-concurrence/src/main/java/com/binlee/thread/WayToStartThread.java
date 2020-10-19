@@ -18,7 +18,7 @@ public final class WayToStartThread {
     }
 
     public static void run() {
-        sLogger.v("there are 4 ways to start a new thread");
+        sLogger.v("there are 4 ways to start a new com.binlee.thread");
         WayToStartThread how = new WayToStartThread();
         how.way_1();
         how.way_2();
@@ -50,7 +50,7 @@ public final class WayToStartThread {
                 }
             }
         });
-        sLogger.v("start a thread by ExecutorService");
+        sLogger.v("start a com.binlee.thread by ExecutorService");
         for (int i = 0; i < 4; i++) {
             service.submit(new NamedRunnable("Worker", i) {
                 @Override
@@ -89,7 +89,7 @@ public final class WayToStartThread {
     }
 
     private void way_3() {
-        sLogger.v("start a thread by Thread and FutureTask&Callable");
+        sLogger.v("start a com.binlee.thread by Thread and FutureTask&Callable");
         final FutureTask<String> task = new FutureTask<>(new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -108,14 +108,14 @@ public final class WayToStartThread {
         new Thread() {
             @Override
             public void run() {
-                sLogger.v("start a thread by new Thread() {@Override run()}.start");
+                sLogger.v("start a com.binlee.thread by new Thread() {@Override run()}.start");
             }
         }.start();
     }
 
     private void way_1() {
         new Thread(() -> {
-            sLogger.v("start a thread by new Thread(new Runnable() {}).start()");
+            sLogger.v("start a com.binlee.thread by new Thread(new Runnable() {}).start()");
         }).start();
     }
 }

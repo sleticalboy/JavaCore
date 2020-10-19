@@ -13,8 +13,12 @@ repositories {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
+
     implementation project(":lib-annotation")
-    annotationProcessor project(":lib-apt")
+//    annotationProcessor project(":lib-apt")
+
     implementation project(":lib-asm")
+    implementation project(":lib-concurrence")
+    implementation project(":lib-design")
     implementation project(":lib-util")
 }

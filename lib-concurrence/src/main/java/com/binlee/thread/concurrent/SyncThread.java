@@ -31,10 +31,10 @@ public final class SyncThread {
         // 等待所有线程完成, 保证主线程最后一行代码被执行
         for (Thread t : threads) {
             try {
-                // 阻塞调用 join() 的线程（此处即 main thread）直到线程 t 执行完毕
+                // 阻塞调用 join() 的线程（此处即 main com.binlee.thread）直到线程 t 执行完毕
                 // 其底层是用 Object#wait(long millis) 和 Object#notifyAll() 方法实现的
-                // notifyAll() 是在 /hotspot/src/share/vm/runtime/thread.cpp 中实现:
-                // 当线程退出时调用 ensure_join() -> lock.notify_all(thread), 由 JVM 自动实现唤醒
+                // notifyAll() 是在 /hotspot/src/share/vm/runtime/com.binlee.thread.cpp 中实现:
+                // 当线程退出时调用 ensure_join() -> lock.notify_all(com.binlee.thread), 由 JVM 自动实现唤醒
                 t.join();
                 // Object#wait() 方法, wait 的是调用 wait() 方法的线程
             } catch (InterruptedException e) {

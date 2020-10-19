@@ -58,7 +58,7 @@ public final class DaemonThread {
             sLogger.v(name + " is running.... " + mDaemon);
         }
         // 此处代码并不会被执行
-        sLogger.v("main thread exit.");
+        sLogger.v("main com.binlee.thread exit.");
     }
 
     public static void run() {

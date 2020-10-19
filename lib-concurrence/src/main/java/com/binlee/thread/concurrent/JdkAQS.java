@@ -28,16 +28,16 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Hagersten) lock queue. CLH locks are normally used for
      * spinlocks.  We instead use them for blocking synchronizers, but
      * use the same basic tactic of holding some of the control
-     * information about a thread in the predecessor of its node.  A
-     * "status" field in each node keeps track of whether a thread
+     * information about a com.binlee.thread in the predecessor of its node.  A
+     * "status" field in each node keeps track of whether a com.binlee.thread
      * should block.  A node is signalled when its predecessor
      * releases.  Each node of the queue otherwise serves as a
      * specific-notification-style monitor holding a single waiting
-     * thread. The status field does NOT control whether threads are
-     * granted locks etc though.  A thread may try to acquire if it is
+     * com.binlee.thread. The status field does NOT control whether threads are
+     * granted locks etc though.  A com.binlee.thread may try to acquire if it is
      * first in the queue. But being first does not guarantee success;
      * it only gives the right to contend.  So the currently released
-     * contender thread may need to rewait.
+     * contender com.binlee.thread may need to rewait.
      *
      * <p>To enqueue into a CLH lock, you atomically splice it in as new
      * tail. To dequeue, you just set the head field.
@@ -63,9 +63,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * http://www.cs.rochester.edu/u/scott/synchronization/
      *
      * <p>We also use "next" links to implement blocking mechanics.
-     * The thread id for each node is kept in its own node, so a
+     * The com.binlee.thread id for each node is kept in its own node, so a
      * predecessor signals the next node to wake up by traversing
-     * next link to determine which thread it is.  Determination of
+     * next link to determine which com.binlee.thread it is.  Determination of
      * successor must avoid races with newly queued nodes to set
      * the "next" fields of their predecessors.  This is solved
      * when necessary by checking backwards from the atomically
@@ -111,17 +111,17 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         static final Node EXCLUSIVE = null;
 
         /**
-         * waitStatus value to indicate thread has cancelled
+         * waitStatus value to indicate com.binlee.thread has cancelled
          * waitStatus: 当前等待节点已取消调度
          */
         static final int CANCELLED = 1;
         /**
-         * waitStatus value to indicate successor's thread needs unparking
+         * waitStatus value to indicate successor's com.binlee.thread needs unparking
          * waitStatus: 后续节点在等待当前节点唤醒
          */
         static final int SIGNAL = -1;
         /**
-         * waitStatus value to indicate thread is waiting on condition
+         * waitStatus value to indicate com.binlee.thread is waiting on condition
          * waitStatus: 节点等待在 condition 上，当其他线程调用了 Condition#signal() 方法后，
          * 该节点将从等待队列转移到同步队列，等待获取同步锁
          */
@@ -144,7 +144,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
          * on failure, block.
          * CANCELLED:  This node is cancelled due to timeout or interrupt.
          * Nodes never leave this state. In particular,
-         * a thread with cancelled node never again blocks.
+         * a com.binlee.thread with cancelled node never again blocks.
          * CONDITION:  This node is currently on a condition queue.
          * It will not be used as a sync queue node
          * until transferred, at which time the status
@@ -170,20 +170,20 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         volatile int waitStatus;
 
         /**
-         * Link to predecessor node that current node/thread relies on
+         * Link to predecessor node that current node/com.binlee.thread relies on
          * for checking waitStatus. Assigned during enqueuing, and nulled
          * out (for sake of GC) only upon dequeuing.  Also, upon
          * cancellation of a predecessor, we short-circuit while
          * finding a non-cancelled one, which will always exist
          * because the head node is never cancelled: A node becomes
          * head only as a result of successful acquire. A
-         * cancelled thread never succeeds in acquiring, and a thread only
+         * cancelled com.binlee.thread never succeeds in acquiring, and a com.binlee.thread only
          * cancels itself, not any other node.
          */
         volatile Node prev;
 
         /**
-         * Link to the successor node that the current node/thread
+         * Link to the successor node that the current node/com.binlee.thread
          * unparks upon release. Assigned during enqueuing, adjusted
          * when bypassing cancelled predecessors, and nulled out (for
          * sake of GC) when dequeued.  The enq operation does not
@@ -198,7 +198,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         volatile Node next;
 
         /**
-         * The thread that enqueued this node.  Initialized on
+         * The com.binlee.thread that enqueued this node.  Initialized on
          * construction and nulled out after use.
          */
         volatile Thread thread;
@@ -352,7 +352,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Creates and enqueues node for current thread and given mode.
+     * Creates and enqueues node for current com.binlee.thread and given mode.
      *
      * @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
      * @return the new node
@@ -394,7 +394,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /*
          * If status is negative (i.e., possibly needing signal) try
          * to clear in anticipation of signalling.  It is OK if this
-         * fails or if status is changed by waiting thread.
+         * fails or if status is changed by waiting com.binlee.thread.
          */
         int ws = node.waitStatus;
         if (ws < 0) {
@@ -545,12 +545,12 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     /**
      * Checks and updates status for a node that failed to acquire.
-     * Returns true if thread should block. This is the main signal
+     * Returns true if com.binlee.thread should block. This is the main signal
      * control in all acquire loops.  Requires that pred == node.prev.
      *
      * @param pred node's predecessor holding status
      * @param node the node
-     * @return {@code true} if thread should block
+     * @return {@code true} if com.binlee.thread should block
      */
     private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
         int ws = pred.waitStatus;
@@ -581,7 +581,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Convenience method to interrupt current thread.
+     * Convenience method to interrupt current com.binlee.thread.
      */
     static void selfInterrupt() {
         Thread.currentThread().interrupt();
@@ -607,7 +607,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      */
 
     /**
-     * Acquires in exclusive uninterruptible mode for thread already in
+     * Acquires in exclusive uninterruptible mode for com.binlee.thread already in
      * queue. Used by condition wait methods as well as acquire.
      *
      * @param node the node
@@ -825,10 +825,10 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * if the state of the object permits it to be acquired in the
      * exclusive mode, and if so to acquire it.
      *
-     * <p>This method is always invoked by the thread performing
+     * <p>This method is always invoked by the com.binlee.thread performing
      * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread. This can be used
+     * may queue the com.binlee.thread, if it is not already queued, until it is
+     * signalled by a release from some other com.binlee.thread. This can be used
      * to implement method {@link Lock#tryLock()}.
      *
      * <p>The default
@@ -854,7 +854,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Attempts to set the state to reflect a release in exclusive
      * mode.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>This method is always invoked by the com.binlee.thread performing release.
      *
      * <p>The default implementation throws
      * {@link UnsupportedOperationException}.
@@ -881,10 +881,10 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * the state of the object permits it to be acquired in the shared
      * mode, and if so to acquire it.
      *
-     * <p>This method is always invoked by the thread performing
+     * <p>This method is always invoked by the com.binlee.thread performing
      * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread.
+     * may queue the com.binlee.thread, if it is not already queued, until it is
+     * signalled by a release from some other com.binlee.thread.
      *
      * <p>The default implementation throws {@link
      * UnsupportedOperationException}.
@@ -897,7 +897,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * mode succeeded but no subsequent shared-mode acquire can
      * succeed; and a positive value if acquisition in shared
      * mode succeeded and subsequent shared-mode acquires might
-     * also succeed, in which case a subsequent waiting thread
+     * also succeed, in which case a subsequent waiting com.binlee.thread
      * must check availability. (Support for three different
      * return values enables this method to be used in contexts
      * where acquires only sometimes act exclusively.)  Upon
@@ -915,7 +915,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     /**
      * Attempts to set the state to reflect a release in shared mode.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>This method is always invoked by the com.binlee.thread performing release.
      *
      * <p>The default implementation throws
      * {@link UnsupportedOperationException}.
@@ -939,7 +939,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     /**
      * Returns {@code true} if synchronization is held exclusively with
-     * respect to the current (calling) thread.  This method is invoked
+     * respect to the current (calling) com.binlee.thread.  This method is invoked
      * upon each call to a non-waiting {@link ConditionObject} method.
      * (Waiting methods instead invoke {@link #release}.)
      *
@@ -959,7 +959,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     /**
      * Acquires in exclusive mode, ignoring interrupts.  Implemented
      * by invoking at least once {@link #tryAcquire},
-     * returning on success.  Otherwise the thread is queued, possibly
+     * returning on success.  Otherwise the com.binlee.thread is queued, possibly
      * repeatedly blocking and unblocking, invoking {@link
      * #tryAcquire} until success.  This method can be used
      * to implement method {@link Lock#lock}.
@@ -978,15 +978,15 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Acquires in exclusive mode, aborting if interrupted.
      * Implemented by first checking interrupt status, then invoking
      * at least once {@link #tryAcquire}, returning on
-     * success.  Otherwise the thread is queued, possibly repeatedly
+     * success.  Otherwise the com.binlee.thread is queued, possibly repeatedly
      * blocking and unblocking, invoking {@link #tryAcquire}
-     * until success or the thread is interrupted.  This method can be
+     * until success or the com.binlee.thread is interrupted.  This method can be
      * used to implement method {@link Lock#lockInterruptibly}.
      *
      * @param acquires the acquire argument.  This value is conveyed to
      *            {@link #tryAcquire} but is otherwise uninterpreted and
      *            can represent anything you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final void acquireInterruptibly(int acquires)
             throws InterruptedException {
@@ -1002,9 +1002,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Attempts to acquire in exclusive mode, aborting if interrupted,
      * and failing if the given timeout elapses.  Implemented by first
      * checking interrupt status, then invoking at least once {@link
-     * #tryAcquire}, returning on success.  Otherwise, the thread is
+     * #tryAcquire}, returning on success.  Otherwise, the com.binlee.thread is
      * queued, possibly repeatedly blocking and unblocking, invoking
-     * {@link #tryAcquire} until success or the thread is interrupted
+     * {@link #tryAcquire} until success or the com.binlee.thread is interrupted
      * or the timeout elapses.  This method can be used to implement
      * method {@link Lock#tryLock(long, TimeUnit)}.
      *
@@ -1013,7 +1013,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      *                     can represent anything you like.
      * @param nanosTimeout the maximum number of nanoseconds to wait
      * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final boolean tryAcquireNanos(int acquires, long nanosTimeout)
             throws InterruptedException {
@@ -1047,7 +1047,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     /**
      * Acquires in shared mode, ignoring interrupts.  Implemented by
      * first invoking at least once {@link #tryAcquireShared},
-     * returning on success.  Otherwise the thread is queued, possibly
+     * returning on success.  Otherwise the com.binlee.thread is queued, possibly
      * repeatedly blocking and unblocking, invoking {@link
      * #tryAcquireShared} until success.
      *
@@ -1065,15 +1065,15 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Acquires in shared mode, aborting if interrupted.  Implemented
      * by first checking interrupt status, then invoking at least once
      * {@link #tryAcquireShared}, returning on success.  Otherwise the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
+     * com.binlee.thread is queued, possibly repeatedly blocking and unblocking,
+     * invoking {@link #tryAcquireShared} until success or the com.binlee.thread
      * is interrupted.
      *
      * @param acquires the acquire argument.
      *            This value is conveyed to {@link #tryAcquireShared} but is
      *            otherwise uninterpreted and can represent anything
      *            you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final void acquireSharedInterruptibly(int acquires)
             throws InterruptedException {
@@ -1090,8 +1090,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * failing if the given timeout elapses.  Implemented by first
      * checking interrupt status, then invoking at least once {@link
      * #tryAcquireShared}, returning on success.  Otherwise, the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
+     * com.binlee.thread is queued, possibly repeatedly blocking and unblocking,
+     * invoking {@link #tryAcquireShared} until success or the com.binlee.thread
      * is interrupted or the timeout elapses.
      *
      * @param acquires          the acquire argument.  This value is conveyed to
@@ -1099,7 +1099,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      *                     and can represent anything you like.
      * @param nanosTimeout the maximum number of nanoseconds to wait
      * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final boolean tryAcquireSharedNanos(int acquires, long nanosTimeout)
             throws InterruptedException {
@@ -1132,7 +1132,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * Queries whether any threads are waiting to acquire. Note that
      * because cancellations due to interrupts and timeouts may occur
      * at any time, a {@code true} return does not guarantee that any
-     * other thread will ever acquire.
+     * other com.binlee.thread will ever acquire.
      *
      * <p>In this implementation, this operation returns in
      * constant time.
@@ -1157,14 +1157,14 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Returns the first (longest-waiting) thread in the queue, or
+     * Returns the first (longest-waiting) com.binlee.thread in the queue, or
      * {@code null} if no threads are currently queued.
      *
      * <p>In this implementation, this operation normally returns in
      * constant time, but may iterate upon contention if other threads are
      * concurrently modifying the queue.
      *
-     * @return the first (longest-waiting) thread in the queue, or
+     * @return the first (longest-waiting) com.binlee.thread in the queue, or
      * {@code null} if no threads are currently queued
      */
     public final Thread getFirstQueuedThread() {
@@ -1178,9 +1178,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     private Thread fullGetFirstQueuedThread() {
         /*
          * The first node is normally head.next. Try to get its
-         * thread field, ensuring consistent reads: If thread
+         * com.binlee.thread field, ensuring consistent reads: If com.binlee.thread
          * field is nulled out or s.prev is no longer head, then
-         * some other thread(s) concurrently performed setHead in
+         * some other com.binlee.thread(s) concurrently performed setHead in
          * between some of our reads. We try this twice before
          * resorting to traversal.
          */
@@ -1214,14 +1214,14 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Returns true if the given thread is currently queued.
+     * Returns true if the given com.binlee.thread is currently queued.
      *
      * <p>This implementation traverses the queue to determine
-     * presence of the given thread.
+     * presence of the given com.binlee.thread.
      *
-     * @param thread the thread
-     * @return {@code true} if the given thread is on the queue
-     * @throws NullPointerException if the thread is null
+     * @param thread the com.binlee.thread
+     * @return {@code true} if the given com.binlee.thread is on the queue
+     * @throws NullPointerException if the com.binlee.thread is null
      */
     public final boolean isQueued(Thread thread) {
         if (thread == null) {
@@ -1236,12 +1236,12 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Returns {@code true} if the apparent first queued thread, if one
+     * Returns {@code true} if the apparent first queued com.binlee.thread, if one
      * exists, is waiting in exclusive mode.  If this method returns
-     * {@code true}, and the current thread is attempting to acquire in
+     * {@code true}, and the current com.binlee.thread is attempting to acquire in
      * shared mode (that is, this method is invoked from {@link
-     * #tryAcquireShared}) then it is guaranteed that the current thread
-     * is not the first queued thread.  Used only as a heuristic in
+     * #tryAcquireShared}) then it is guaranteed that the current com.binlee.thread
+     * is not the first queued com.binlee.thread.  Used only as a heuristic in
      * ReentrantReadWriteLock.
      */
     final boolean apparentlyFirstQueuedIsExclusive() {
@@ -1254,7 +1254,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     /**
      * Queries whether any threads have been waiting to acquire longer
-     * than the current thread.
+     * than the current com.binlee.thread.
      *
      * <p>An invocation of this method is equivalent to (but may be
      * more efficient than):
@@ -1264,8 +1264,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      *
      * <p>Note that because cancellations due to interrupts and
      * timeouts may occur at any time, a {@code true} return does not
-     * guarantee that some other thread will acquire before the current
-     * thread.  Likewise, it is possible for another thread to win a
+     * guarantee that some other com.binlee.thread will acquire before the current
+     * com.binlee.thread.  Likewise, it is possible for another com.binlee.thread to win a
      * race to enqueue after this method has returned {@code false},
      * due to the queue being empty.
      *
@@ -1290,15 +1290,15 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      *   }
      * }}</pre>
      *
-     * @return {@code true} if there is a queued thread preceding the
-     * current thread, and {@code false} if the current thread
+     * @return {@code true} if there is a queued com.binlee.thread preceding the
+     * current com.binlee.thread, and {@code false} if the current com.binlee.thread
      * is at the head of the queue or the queue is empty
      * @since 1.7
      */
     public final boolean hasQueuedPredecessors() {
         // The correctness of this depends on head being initialized
         // before tail and on head.next being accurate if the current
-        // thread is first in queue.
+        // com.binlee.thread is first in queue.
         Node t = tail; // Read fields in reverse initialization order
         Node h = head;
         Node s;
@@ -1472,7 +1472,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
         /*
          * Splice onto queue and try to set waitStatus of predecessor to
-         * indicate that thread is (probably) waiting. If cancelled or
+         * indicate that com.binlee.thread is (probably) waiting. If cancelled or
          * attempt to set waitStatus fails, wake up to resync (in which
          * case the waitStatus can be transiently and harmlessly wrong).
          */
@@ -1486,7 +1486,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     /**
      * Transfers node, if necessary, to sync queue after a cancelled wait.
-     * Returns true if thread was cancelled before being signalled.
+     * Returns true if com.binlee.thread was cancelled before being signalled.
      *
      * @param node the node
      * @return true if cancelled before the node was signalled
@@ -1741,7 +1741,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         // public methods
 
         /**
-         * Moves the longest-waiting thread, if one exists, from the
+         * Moves the longest-waiting com.binlee.thread, if one exists, from the
          * wait queue for this condition to the wait queue for the
          * owning lock.
          *
@@ -1807,7 +1807,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /*
          * For interruptible waits, we need to track whether to throw
          * InterruptedException, if interrupted while blocked on
-         * condition, versus reinterrupt current thread, if
+         * condition, versus reinterrupt current com.binlee.thread, if
          * interrupted while blocked waiting to re-acquire.
          */
 
@@ -1830,7 +1830,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         }
 
         /**
-         * Throws InterruptedException, reinterrupts current thread, or
+         * Throws InterruptedException, reinterrupts current com.binlee.thread, or
          * does nothing, depending on mode.
          */
         private void reportInterruptAfterWait(int interruptMode)
@@ -1845,7 +1845,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /**
          * Implements interruptible condition wait.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
+         * <li> If current com.binlee.thread is interrupted, throw InterruptedException.
          * <li> Save lock state returned by {@link #getState}.
          * <li> Invoke {@link #release} with saved state as argument,
          *      throwing IllegalMonitorStateException if it fails.
@@ -1883,7 +1883,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /**
          * Implements timed condition wait.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
+         * <li> If current com.binlee.thread is interrupted, throw InterruptedException.
          * <li> Save lock state returned by {@link #getState}.
          * <li> Invoke {@link #release} with saved state as argument,
          *      throwing IllegalMonitorStateException if it fails.
@@ -1931,7 +1931,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /**
          * Implements absolute timed condition wait.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
+         * <li> If current com.binlee.thread is interrupted, throw InterruptedException.
          * <li> Save lock state returned by {@link #getState}.
          * <li> Invoke {@link #release} with saved state as argument,
          *      throwing IllegalMonitorStateException if it fails.
@@ -1975,7 +1975,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         /**
          * Implements timed condition wait.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
+         * <li> If current com.binlee.thread is interrupted, throw InterruptedException.
          * <li> Save lock state returned by {@link #getState}.
          * <li> Invoke {@link #release} with saved state as argument,
          *      throwing IllegalMonitorStateException if it fails.

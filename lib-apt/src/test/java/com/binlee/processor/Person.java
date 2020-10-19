@@ -1,10 +1,12 @@
-package com.binlee.annotation;
+package com.binlee.processor;
+
+import com.binlee.annotation.Gender;
 
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/9/28
  */
-public class Person {
+public final class Person {
 
     private final String mName;
     @Gender
@@ -34,10 +36,5 @@ public class Person {
 
     public void say() {
         System.out.println(toString());
-    }
-
-    public static void run() {
-        new Person("ben", Gender.MALE).say();
-        new com.binlee.apt.Hello$$Apt().helloApt();
     }
 }

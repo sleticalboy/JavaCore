@@ -56,7 +56,7 @@ public final class WayToAbortThread {
         try {
             Thread.sleep(10000L);
         } catch (InterruptedException e) {
-            sLogger.e("main thread is interrupted", e);
+            sLogger.e("main com.binlee.thread is interrupted", e);
         }
         mStarted = false;
     }
@@ -65,7 +65,7 @@ public final class WayToAbortThread {
         try {
             Thread.sleep(10000L);
         } catch (InterruptedException e) {
-            sLogger.e("main thread is interrupted", e);
+            sLogger.e("main com.binlee.thread is interrupted", e);
         }
         if (mThread != null) {
             mThread.interrupt();
