@@ -24,6 +24,12 @@ public final class Conceptions {
     // JVM: 栈、堆、方法区
 
     public static void main() {
+        // 原子操作：不会被线程调度机制打断的操作（从操作开始到操作结束，不会被人打扰）[atomic operation]
+        // 多线程并发：各个线程轮流获得 CPU 使用权，分别执行各自的任务
+        // 线程调度：指操作系统按照特定机制为多个线程分配 CPU 使用权
+        //  分时调度：让所有的线程轮流获得 CPU 的使用权，并且平均分配每个线程占用 CPU 的时间片
+        //  抢占式调度：优先让优先级高的线程使用 CPU，若优先级相同则随机分配（JVM 采用此调度模型）
+
         // 原子性: synchronized
         //    1. monitorenter
         //    2. monitorexit
