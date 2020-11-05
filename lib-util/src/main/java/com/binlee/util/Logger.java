@@ -1,5 +1,8 @@
 package com.binlee.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,9 +50,7 @@ public final class Logger {
         if (tr == null) {
             return;
         }
-        for (StackTraceElement ste : tr.getStackTrace()) {
-            printf(ERROR, mTag, ste.toString());
-        }
+        printf(ERROR, mTag, getStackTraceString(tr));
     }
 
     private static void printf(String format, Object... args) {
@@ -65,6 +66,24 @@ public final class Logger {
             }
             return logger;
         }
+    }
+
+    public static String getStackTraceString(Throwable tr) {
+        if (tr == null) {
+            return "";
+        }
+        Throwable t = tr;
+        while (t != null) {
+            if (t instanceof UnknownHostException) {
+                return "";
+            }
+            t = t.getCause();
+        }
+        final StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw, false);
+        tr.printStackTrace(pw);
+        pw.flush();
+        return sw.toString();
     }
 
     public static void run(String[] args) {
