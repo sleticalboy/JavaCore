@@ -35,24 +35,24 @@ public final class Strategies {
             cats.add(cat);
         }
         System.out.println(cats);
-        Strategies strategies = null;
+        Comparator<Cat> comparator = null;
         final Scanner scanner = new Scanner(System.in);
         System.out.println("请输入1 或 2：");
         final int mode = scanner.nextInt();
         if (mode == 1) {
-            strategies = new Strategies(new SmallToLargeComparator());
+            comparator = new SmallToLargeComparator();
         } else if (mode == 2) {
-            strategies = new Strategies(new LargeToSmallComparator());
+            comparator = new LargeToSmallComparator();
         } else {
             System.err.println("illegal mode: " + mode);
             System.exit(0);
         }
-        strategies.sort(cats);
+        new Strategies(comparator).sort(cats);
         System.out.println(cats);
 
-        // Comparator 接口
-        // 策略一：SmallToLargeComparator
-        // 策略二：LargeToSmallComparator
+        // Comparator 策略接口
+        // 策略实现一：SmallToLargeComparator
+        // 策略实现二：LargeToSmallComparator
     }
 
     static class SmallToLargeComparator implements Comparator<Cat> {
