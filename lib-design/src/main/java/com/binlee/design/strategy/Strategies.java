@@ -1,5 +1,7 @@
 package com.binlee.design.strategy;
 
+import com.binlee.util.Logger;
+
 import java.util.*;
 
 /**
@@ -9,6 +11,8 @@ import java.util.*;
  * 策略模式（Strategy），定义了一组算法，将每个算法都封装起来，并且使它们之间可以互换。
  */
 public final class Strategies {
+
+    private static final Logger sLogger = Logger.get(Strategies.class);
 
     private final Comparator<Cat> mComparator;
 
@@ -20,9 +24,9 @@ public final class Strategies {
         list.sort(mComparator);
     }
 
-    public static void main(String[] args) {
-        exec();
-    }
+    // public static void main(String[] args) {
+    //     exec();
+    // }
 
     public static void exec() {
         List<Cat> cats = new ArrayList<>(4);
@@ -37,14 +41,14 @@ public final class Strategies {
         System.out.println(cats);
         Comparator<Cat> comparator = null;
         final Scanner scanner = new Scanner(System.in);
-        System.out.println("请输入1 或 2：");
+        sLogger.i("请输入1 或 2：");
         final int mode = scanner.nextInt();
         if (mode == 1) {
             comparator = new SmallToLargeComparator();
         } else if (mode == 2) {
             comparator = new LargeToSmallComparator();
         } else {
-            System.err.println("illegal mode: " + mode);
+            sLogger.e("illegal mode: " + mode);
             System.exit(0);
         }
         new Strategies(comparator).sort(cats);
@@ -58,7 +62,7 @@ public final class Strategies {
     static class SmallToLargeComparator implements Comparator<Cat> {
 
         {
-            System.out.println("small to large");
+            sLogger.v("small to large");
         }
 
         @Override
@@ -77,7 +81,7 @@ public final class Strategies {
     static class LargeToSmallComparator implements Comparator<Cat> {
 
         {
-            System.out.println("large to small");
+            sLogger.v("large to small");
         }
 
         @Override

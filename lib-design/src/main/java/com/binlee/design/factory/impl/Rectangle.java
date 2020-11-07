@@ -1,7 +1,7 @@
 package com.binlee.design.factory.impl;
 
 import com.binlee.annotation.Factory;
-import com.binlee.design.factory.IShape;
+import com.binlee.design.factory.interfaces.IShape;
 
 /**
  * @author binlee sleticalboy@gmail.com

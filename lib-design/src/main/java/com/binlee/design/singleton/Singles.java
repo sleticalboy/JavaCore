@@ -1,15 +1,34 @@
 package com.binlee.design.singleton;
 
+import com.binlee.util.Logger;
+
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/10/31
  */
 public final class Singles {
 
+    private static final Logger sLogger = Logger.get(Singles.class);
+
     // 单例模式有 8 种
     // 饿汉式 2 种(静态常量懒、静态代码块)
     // 懒汉式 3 种(单线程、线程安全、同步代码块)
     // 其他 3 种（双检锁、静态内部类、枚举）
+
+    // public static void main(String[] args) {
+    //     exec();
+    // }
+
+    public static void exec() {
+        Single_1.getInstance().dump();
+        Single_2.getInstance().dump();
+        Single_3.getInstance().dump();
+        Single_4.getInstance().dump();
+        Single_5.getInstance().dump();
+        Single_6.getInstance().dump();
+        Single_7.getInstance().dump();
+        Single_8.getInstance().dump();
+    }
 
     //////////////////// 饿汉式 2 种
     public static class Single_1 {
@@ -29,7 +48,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 1 run... " + hashCode());
         }
     }
 
@@ -53,7 +72,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 6 run... " + hashCode());
         }
     }
 
@@ -74,7 +93,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 4 run... " + hashCode());
         }
     }
 
@@ -93,7 +112,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 7 run... " + hashCode());
         }
     }
 
@@ -114,7 +133,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 8 run... " + hashCode());
         }
     }
 
@@ -143,7 +162,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 5 run... " + hashCode());
         }
     }
 
@@ -166,7 +185,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 2 run... " + hashCode());
         }
     }
 
@@ -183,7 +202,7 @@ public final class Singles {
         }
 
         public void dump() {
-            //
+            sLogger.d("Single 3 run... " + hashCode());
         }
     }
 }

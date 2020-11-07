@@ -1,7 +1,7 @@
 package com.binlee.design.factory.impl;
 
 import com.binlee.annotation.Factory;
-import com.binlee.design.factory.IPerson;
+import com.binlee.design.factory.interfaces.IPerson;
 
 /**
  * @author binli sleticalboy@gmail.com

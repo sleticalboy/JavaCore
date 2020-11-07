@@ -1,5 +1,7 @@
 package com.binlee.design.factory;
 
+import com.binlee.design.factory.interfaces.IShape;
+
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/10/13

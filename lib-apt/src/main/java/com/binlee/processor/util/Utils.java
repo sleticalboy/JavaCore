@@ -14,7 +14,7 @@ public final class Utils {
 
     private static final String TAG = "Utils";
 
-    static boolean sDebuggable = false;
+    public static boolean sDebuggable = false;
 
     public static void log(ProcessingEnvironment env, Object obj) {
         if (sDebuggable) {

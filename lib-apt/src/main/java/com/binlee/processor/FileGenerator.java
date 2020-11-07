@@ -78,19 +78,20 @@ public final class FileGenerator {
     private static void generateFactory(ProcessingEnvironment env, @Nonnull FactoryItem items) {
         final TypeElement element = env.getElementUtils().getTypeElement(items.parent);
         final PackageElement pkg = env.getElementUtils().getPackageOf(element);
-        final String pkgName = pkg.isUnnamed() ? "com.binlee.apt" : pkg.getQualifiedName().toString();
+        String pkgName = pkg.isUnnamed() ? "com.binlee.apt" : pkg.getQualifiedName().toString();
+        pkgName = pkgName.substring(0, pkgName.lastIndexOf('.'));
         Utils.log(env, "generateFactory() for: " + items + ", element: " + element + ", pkg: " + pkgName);
         // start build files
         final MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PRIVATE);
         final MethodSpec.Builder create = MethodSpec.methodBuilder("create")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addModifiers(Modifier.PUBLIC/*, Modifier.STATIC*/)
                 .addParameter(ParameterSpec.builder(String.class, "id").build())
                 .returns(TypeName.get(element.asType()))
                 // start control flow
                 .beginControlFlow("if (id == null)")
                 // throw new IllegalArgumentException("Unknown name: " + name)
-                .addStatement("throw new IllegalArgumentException(\"Unexpected id: \" + id)")
+                .addStatement("throw new IllegalArgumentException(\"Unexpected id: null\")")
                 // end control flow
                 .endControlFlow();
         // main code block start
@@ -103,7 +104,10 @@ public final class FileGenerator {
         // throw new IllegalArgumentException("Unknown id: " + id)
         create.addStatement("throw new IllegalArgumentException(\"Unknown id: \" + id)");
 
-        TypeSpec.Builder clazz = TypeSpec.classBuilder((element.getSimpleName() + "Factory_gen").substring(1))
+
+        String name = (element.getSimpleName() + "FactoryImpl_").substring(1);
+        Utils.log(env, "factory name: " + name);
+        TypeSpec.Builder clazz = TypeSpec.classBuilder(name)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 // .addOriginatingElement()
                 .addMethod(constructor.build())
