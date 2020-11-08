@@ -10,6 +10,7 @@ public final class Singles {
 
     private static final Logger sLogger = Logger.get(Singles.class);
 
+    // 单例（Singleton）模式：某个类只能生成一个实例，该类提供了一个全局访问点供外部获取该实例，其拓展是有限多例模式。
     // 单例模式有 8 种
     // 饿汉式 2 种(静态常量懒、静态代码块)
     // 懒汉式 3 种(单线程、线程安全、同步代码块)
