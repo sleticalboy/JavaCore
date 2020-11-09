@@ -1,7 +1,7 @@
 package com.binlee.thread.concurrent;
 
 import com.binlee.reflect.ReflectException;
-import com.binlee.reflect.Reflects;
+import com.binlee.reflect.Reflecter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -311,9 +311,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         // See below for intrinsics setup to support this
         try {
             // return getUnsafe().compareAndSwapInt(this, stateOffset, expect, update);
-            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
-                    new Class[]{Object.class, long.class, int.class, int.class},
-                    this, stateOffset, expect, update);
+            final Class<?>[] paramTypes = {Object.class, long.class, int.class, int.class};
+            Object[] args = {this, stateOffset, expect, update};
+            return (boolean) Reflecter.on(getUnsafe()).call("compareAndSwapInt", paramTypes, args);
         } catch (ReflectException e) {
             throw new RuntimeException("compareAndSetState() error", e.getCause());
         }
@@ -2119,37 +2119,37 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
 
     static {
         try {
-            // stateOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("state"));
             System.out.println("JdkAQS static init: " + getUnsafe());
-            stateOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
-                    JdkAQS.class.getDeclaredField("state"));
+            // common usage
+            final Class<?>[] paramTypes = {Field.class};
+            final Reflecter.Reflekt reflekt = Reflecter.on(getUnsafe());
+            final String method = "objectFieldOffset";
+
+            // stateOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("state"));
+            stateOffset = (long) reflekt.call(method, paramTypes, JdkAQS.class.getDeclaredField("state"));
 
             // headOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("head"));
-            headOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
-                    JdkAQS.class.getDeclaredField("head"));
+            headOffset = (long) reflekt.call(method, paramTypes, JdkAQS.class.getDeclaredField("head"));
 
             // tailOffset = getUnsafe().objectFieldOffset(JdkAQS.class.getDeclaredField("tail"));
-            tailOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
-                    JdkAQS.class.getDeclaredField("tail"));
+            tailOffset = (long) reflekt.call(method, paramTypes, JdkAQS.class.getDeclaredField("tail"));
 
             // waitStatusOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("waitStatus"));
-            waitStatusOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
-                    Node.class.getDeclaredField("waitStatus"));
+            waitStatusOffset = (long) reflekt.call(method, paramTypes, Node.class.getDeclaredField("waitStatus"));
 
             // nextOffset = getUnsafe().objectFieldOffset(Node.class.getDeclaredField("next"));
-            nextOffset = (long) Reflects.invoke(getUnsafe(), "objectFieldOffset", new Class<?>[]{Field.class},
-                    Node.class.getDeclaredField("next"));
+            nextOffset = (long) reflekt.call(method, paramTypes, Node.class.getDeclaredField("next"));
         } catch (Exception e) {
-            throw new RuntimeException("JdkAQS static initerror", e.getCause());
+            throw new RuntimeException("JdkAQS static init error", e.getCause());
         }
     }
 
     private static Object getUnsafe() {
         if (sUnsafe == null) {
             try {
-                sUnsafe = Reflects.getStaticField("sun.misc.Unsafe", "theUnsafe");
+                sUnsafe = Reflecter.on("sun.misc.Unsafe").get("theUnsafe");
             } catch (ReflectException e) {
-                throw new RuntimeException("getUnsafe() error", e.getCause());
+                throw new RuntimeException("getUnsafe()", e.getCause());
             }
         }
         return sUnsafe;
@@ -2160,7 +2160,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      */
     private boolean compareAndSetHead(Node update) {
         try {
-            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+            return (boolean) Reflecter.on(getUnsafe()).call("compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, headOffset, null, update);
         } catch (ReflectException e) {
@@ -2173,7 +2173,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      */
     private boolean compareAndSetTail(Node expect, Node update) {
         try {
-            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+            return (boolean) Reflecter.on(getUnsafe()).call("compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     this, tailOffset, expect, update);
         } catch (ReflectException e) {
@@ -2186,7 +2186,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      */
     private static boolean compareAndSetWaitStatus(Node node, int expect, int update) {
         try {
-            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapInt",
+            return (boolean) Reflecter.on(getUnsafe()).call("compareAndSwapInt",
                     new Class<?>[]{Object.class, long.class, int.class, int.class},
                     node, waitStatusOffset, expect, update);
         } catch (ReflectException e) {
@@ -2199,7 +2199,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      */
     private static boolean compareAndSetNext(Node node, Node expect, Node update) {
         try {
-            return (boolean) Reflects.invoke(getUnsafe(), "compareAndSwapObject",
+            return (boolean) Reflecter.on(getUnsafe()).call("compareAndSwapObject",
                     new Class<?>[]{Object.class, long.class, Object.class, Object.class},
                     node, nextOffset, expect, update);
         } catch (ReflectException e) {

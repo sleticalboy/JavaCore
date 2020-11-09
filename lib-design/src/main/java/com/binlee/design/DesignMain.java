@@ -13,9 +13,9 @@ import java.lang.reflect.Method;
  * created by IDEA 2020/9/30
  * see http://c.biancheng.net/design_pattern/
  */
-public final class Design {
+public final class DesignMain {
 
-    private static final Logger sLogger = Logger.get(Design.class);
+    private static final Logger sLogger = Logger.get(DesignMain.class);
 
     // 23 种设计模式
     // 按照目的来划分
