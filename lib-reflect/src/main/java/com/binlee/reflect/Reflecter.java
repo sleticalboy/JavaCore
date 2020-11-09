@@ -175,6 +175,9 @@ public final class Reflecter {
         private Class<?>[] mInterfaces;
 
         private Prox(ClassLoader loader) {
+            if (loader == null) {
+                throw new ReflectException("Prox() with non class loader.");
+            }
             mLoader = loader;
         }
 

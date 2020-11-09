@@ -9,4 +9,8 @@ public final class ReflectException extends RuntimeException {
     public ReflectException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public ReflectException(String message) {
+        super(message);
+    }
 }

@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ReflecterTest {
 
     @Test
-    public void testAll() {
+    public void testReflekt() {
         Object ret = Reflecter.on(((Object) "hello")).call("toString");
         Assert.assertEquals("hello", ret);
 
@@ -56,6 +56,13 @@ public class ReflecterTest {
     @Test
     public void testForName() {
         Assert.assertEquals(String.class, Reflecter.forName("java.lang.String"));
+    }
+
+    @Test
+    public void testProx() {
+        final Object obj = Reflecter.with(getClass().getClassLoader())
+                .proxy(ISay.class).handle((proxy, method, args) -> null);
+        Assert.assertEquals(null, obj);
     }
 
     public static class FooA {
