@@ -1,4 +1,4 @@
-package com.binlee.design.factory.interfaces;
+package com.binlee.design.bean;
 
 /**
  * @author binli sleticalboy@gmail.com

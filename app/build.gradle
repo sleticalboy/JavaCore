@@ -21,4 +21,5 @@ dependencies {
     implementation project(":lib-concurrence")
     implementation project(":lib-design")
     implementation project(":lib-util")
+    implementation(project(":lib-reflect"))
 }

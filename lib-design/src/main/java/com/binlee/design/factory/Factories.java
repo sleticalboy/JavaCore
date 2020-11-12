@@ -1,8 +1,9 @@
 package com.binlee.design.factory;
 
-import com.binlee.design.factory.impl.Jack;
-import com.binlee.design.factory.impl.Maria;
-import com.binlee.design.factory.interfaces.IPerson;
+import com.binlee.design.bean.Jack;
+import com.binlee.design.bean.Tom;
+import com.binlee.design.bean.Maria;
+import com.binlee.design.bean.IPerson;
 import com.binlee.util.Logger;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,10 +39,12 @@ public class Factories {
         sLogger.d("factory method run...");
         // 根据配置生成具体的工厂
         MyFactory factory = new TeacherFactory();
-        IPerson teacher = factory.create();
+        Teacher teacher = (Teacher) factory.create();
+        teacher.setName("John");
         teacher.sayHello();
         factory = new StudentFactory();
-        final IPerson student = factory.create();
+        final Student student = (Student) factory.create();
+        student.setName("student Jordan");
         student.sayHello();
 
         sLogger.d("abstract factory run...");
@@ -78,13 +81,13 @@ public class Factories {
                 throw new IllegalArgumentException("Unexpected id: null");
             }
             if (id.equals("Maria")) {
-                return new com.binlee.design.factory.impl.Maria();
+                return new Maria();
             }
             if (id.equals("Jack")) {
-                return new com.binlee.design.factory.impl.Jack();
+                return new Jack();
             }
             if (id.equals("Tom")) {
-                return new com.binlee.design.factory.impl.Tom();
+                return new Tom();
             }
             throw new IllegalArgumentException("Unknown id: " + id);
         }
@@ -98,15 +101,19 @@ public class Factories {
     }
 
     // 具体产品 Student
-    public static class Student implements IPerson {
+    private static class Student implements IPerson {
 
-        private final String mName;
+        private String mName;
 
         public Student() {
             this(null);
         }
 
         public Student(String name) {
+            mName = name;
+        }
+
+        public void setName(String name) {
             mName = name;
         }
 
@@ -124,13 +131,17 @@ public class Factories {
     // 具体产品 Teacher
     public static class Teacher implements IPerson {
 
-        private final String mName;
+        private String mName;
 
         public Teacher() {
             this(null);
         }
 
         public Teacher(String name) {
+            mName = name;
+        }
+
+        public void setName(String name) {
             mName = name;
         }
 

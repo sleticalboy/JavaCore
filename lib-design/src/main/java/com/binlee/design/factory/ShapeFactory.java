@@ -1,6 +1,6 @@
 package com.binlee.design.factory;
 
-import com.binlee.design.factory.interfaces.IShape;
+import com.binlee.design.bean.IShape;
 
 /**
  * @author binlee sleticalboy@gmail.com

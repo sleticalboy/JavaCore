@@ -1,6 +1,6 @@
 package com.binlee.design.factory;
 
-import com.binlee.design.factory.interfaces.IPerson;
+import com.binlee.design.bean.IPerson;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

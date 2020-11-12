@@ -82,7 +82,8 @@ public final class WayToStartThread {
             Thread.sleep(10000L);
             service.isShutdown();
             sLogger.v("shut down executor service");
-            System.exit(0);
+            // why exit here?
+            // System.exit(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

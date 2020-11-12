@@ -1,6 +1,7 @@
 package com.binlee.design;
 
 import com.binlee.design.factory.Factories;
+import com.binlee.design.prototype.Prototypes;
 import com.binlee.design.singleton.ServiceManager;
 import com.binlee.design.singleton.Singles;
 import com.binlee.design.strategy.Strategies;
@@ -34,6 +35,8 @@ public final class DesignMain {
         Strategies.exec();
         // 工厂模式
         Factories.exec();
+        // 原型模式
+        Prototypes.exec();
     }
 
     private static void foo() {
