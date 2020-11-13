@@ -4,9 +4,12 @@ sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
     compileOnly project(":lib-util")
     compileOnly project(":lib-reflect")
+
+    testImplementation 'junit:junit:4.12'
+    // just for junit
     // https://mvnrepository.com/artifact/org.openjdk.jol/jol-core
     implementation group: 'org.openjdk.jol', name: 'jol-core', version: '0.14'
+    // implementation(project(":lib-util"))
 }
