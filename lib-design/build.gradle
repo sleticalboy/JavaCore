@@ -4,6 +4,9 @@ sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
 dependencies {
+    testImplementation 'junit:junit:4.12'
+    // just for junit test
+    // implementation(project(":lib-util"))
     compileOnly project(":lib-annotation")
     compileOnly project(":lib-util")
 
