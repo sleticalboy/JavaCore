@@ -2,6 +2,8 @@ package com.binlee.design.strategy;
 
 import com.binlee.util.Logger;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -12,7 +14,8 @@ import java.util.*;
  */
 public final class Strategies {
 
-    private static final Logger sLogger = Logger.get(Strategies.class);
+    private static final Logger LOGGER = Logger.get(Strategies.class);
+    public static boolean sTest = false;
 
     private final Comparator<Cat> mComparator;
 
@@ -38,21 +41,22 @@ public final class Strategies {
             cat.age = random.nextInt();
             cats.add(cat);
         }
-        System.out.println(cats);
+        LOGGER.d(String.valueOf(cats));
         Comparator<Cat> comparator = null;
-        final Scanner scanner = new Scanner(System.in);
-        sLogger.i("请输入1 或 2：");
+
+        final Scanner scanner = new Scanner(sTest ? new ByteArrayInputStream(new byte[]{'2'}) : System.in);
+        LOGGER.i("请输入1 或 2：");
         final int mode = scanner.nextInt();
         if (mode == 1) {
             comparator = new SmallToLargeComparator();
         } else if (mode == 2) {
             comparator = new LargeToSmallComparator();
         } else {
-            sLogger.e("illegal mode: " + mode);
-            System.exit(0);
+            LOGGER.e("illegal mode: " + mode);
+            // System.exit(0);
         }
         new Strategies(comparator).sort(cats);
-        System.out.println(cats);
+        LOGGER.d(String.valueOf(cats));
 
         // Comparator 策略接口
         // 策略实现一：SmallToLargeComparator
@@ -62,7 +66,7 @@ public final class Strategies {
     static class SmallToLargeComparator implements Comparator<Cat> {
 
         {
-            sLogger.v("small to large");
+            LOGGER.v("small to large");
         }
 
         @Override
@@ -81,7 +85,7 @@ public final class Strategies {
     static class LargeToSmallComparator implements Comparator<Cat> {
 
         {
-            sLogger.v("large to small");
+            LOGGER.v("large to small");
         }
 
         @Override
