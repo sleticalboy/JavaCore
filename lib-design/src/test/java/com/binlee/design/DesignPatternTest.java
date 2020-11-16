@@ -15,6 +15,7 @@ import com.binlee.design.proxy.Agent;
 import com.binlee.design.proxy.IStar;
 import com.binlee.design.singleton.Singles;
 import com.binlee.design.strategy.Strategies;
+import com.binlee.design.template.Templates;
 import org.junit.Test;
 
 /**
@@ -24,6 +25,11 @@ import org.junit.Test;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void template() {
+        Templates.exec();
+    }
 
     @Test
     public void composite() {
