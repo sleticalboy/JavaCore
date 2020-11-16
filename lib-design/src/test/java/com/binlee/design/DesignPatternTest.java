@@ -3,6 +3,7 @@ package com.binlee.design;
 import com.binlee.design.adapter.Adapter;
 import com.binlee.design.bridge.Bridges;
 import com.binlee.design.builder.Builders;
+import com.binlee.design.composite.Composites;
 import com.binlee.design.decorator.Decorators;
 import com.binlee.design.facade.Facades;
 import com.binlee.design.factory.AbstractFactory;
@@ -23,6 +24,11 @@ import org.junit.Test;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void composite() {
+        Composites.exec();
+    }
 
     @Test
     public void flyweight() {
