@@ -8,6 +8,7 @@ import com.binlee.design.facade.Facades;
 import com.binlee.design.factory.AbstractFactory;
 import com.binlee.design.factory.FactoryMethod;
 import com.binlee.design.factory.SimpleFactory;
+import com.binlee.design.flyweight.Flyweights;
 import com.binlee.design.prototype.Prototypes;
 import com.binlee.design.proxy.Agent;
 import com.binlee.design.proxy.IStar;
@@ -22,6 +23,11 @@ import org.junit.Test;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void flyweight() {
+        Flyweights.exec();
+    }
 
     @Test
     public void facade() {
