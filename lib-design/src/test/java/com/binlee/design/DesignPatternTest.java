@@ -11,6 +11,7 @@ import com.binlee.design.factory.AbstractFactory;
 import com.binlee.design.factory.FactoryMethod;
 import com.binlee.design.factory.SimpleFactory;
 import com.binlee.design.flyweight.Flyweights;
+import com.binlee.design.observer.Observers;
 import com.binlee.design.prototype.Prototypes;
 import com.binlee.design.proxy.Agent;
 import com.binlee.design.proxy.IStar;
@@ -19,6 +20,9 @@ import com.binlee.design.strategy.Strategies;
 import com.binlee.design.template.Templates;
 import org.junit.Test;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * @author binli sleticalboy@gmail.com
  * created by IDEA 2020/11/16
@@ -26,6 +30,11 @@ import org.junit.Test;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void observer() {
+        Observers.exec();
+    }
 
     @Test
     public void command() {
