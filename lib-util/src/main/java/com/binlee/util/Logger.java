@@ -20,9 +20,14 @@ public final class Logger {
     private static final String ERROR = "\033[31mE/%s: %s\033[0m\n";
 
     private final String mTag;
+    private boolean isDebuggable;
 
     private Logger(String tag) {
         mTag = tag;
+    }
+
+    public void setDebuggable(boolean debuggable) {
+        isDebuggable = debuggable;
     }
 
     public void v(String msg) {
@@ -53,8 +58,10 @@ public final class Logger {
         printf(ERROR, mTag, getStackTraceString(tr));
     }
 
-    private static void printf(String format, Object... args) {
-        System.out.printf(format, args);
+    private void printf(String format, Object... args) {
+        if (isDebuggable) {
+            System.out.printf(format, args);
+        }
     }
 
     public static Logger get(Class<?> clazz) {
