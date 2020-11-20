@@ -3,6 +3,7 @@ package com.binlee.design;
 import com.binlee.design.adapter.Adapter;
 import com.binlee.design.bridge.Bridges;
 import com.binlee.design.builder.Builders;
+import com.binlee.design.chain.Chains;
 import com.binlee.design.command.Commands;
 import com.binlee.design.composite.Composites;
 import com.binlee.design.decorator.Decorators;
@@ -31,6 +32,11 @@ import java.util.Observer;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void chain() {
+        Chains.exec();
+    }
 
     @Test
     public void mediator() {
