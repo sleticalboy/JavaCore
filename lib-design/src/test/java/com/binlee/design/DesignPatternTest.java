@@ -18,6 +18,7 @@ import com.binlee.design.prototype.Prototypes;
 import com.binlee.design.proxy.Agent;
 import com.binlee.design.proxy.IStar;
 import com.binlee.design.singleton.Singles;
+import com.binlee.design.state.States;
 import com.binlee.design.strategy.Strategies;
 import com.binlee.design.template.Templates;
 import org.junit.Test;
@@ -32,6 +33,11 @@ import java.util.Observer;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void state() {
+        States.exec();
+    }
 
     @Test
     public void chain() {

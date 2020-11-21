@@ -20,7 +20,7 @@ public final class Logger {
     private static final String ERROR = "\033[31mE/%s: %s\033[0m\n";
 
     private final String mTag;
-    private boolean isDebuggable;
+    private boolean isDebuggable = true;
 
     private Logger(String tag) {
         mTag = tag;

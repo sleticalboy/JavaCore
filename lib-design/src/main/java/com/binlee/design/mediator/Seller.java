@@ -15,7 +15,6 @@ public class Seller implements ICustomer {
     public Seller(String name) {
         this.name = name;
         logger = Logger.get(getClass());
-        logger.setDebuggable(true);
     }
 
     @Override

@@ -14,7 +14,6 @@ public abstract class AbstractHandler {
     public AbstractHandler(AbstractHandler next) {
         this.next = next;
         logger = Logger.get(getClass());
-        logger.setDebuggable(true);
     }
 
     public abstract boolean handle(String message);
