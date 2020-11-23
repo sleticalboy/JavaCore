@@ -12,6 +12,7 @@ import com.binlee.design.factory.AbstractFactory;
 import com.binlee.design.factory.FactoryMethod;
 import com.binlee.design.factory.SimpleFactory;
 import com.binlee.design.flyweight.Flyweights;
+import com.binlee.design.iterator.Iterators;
 import com.binlee.design.mediator.Mediators;
 import com.binlee.design.observer.Observers;
 import com.binlee.design.prototype.Prototypes;
@@ -33,6 +34,11 @@ import java.util.Observer;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void iterator() {
+        Iterators.exec();
+    }
 
     @Test
     public void state() {
