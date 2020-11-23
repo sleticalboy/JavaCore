@@ -22,6 +22,7 @@ import com.binlee.design.singleton.Singles;
 import com.binlee.design.state.States;
 import com.binlee.design.strategy.Strategies;
 import com.binlee.design.template.Templates;
+import com.binlee.design.visitor.Visitors;
 import org.junit.Test;
 
 import java.util.Observable;
@@ -34,6 +35,11 @@ import java.util.Observer;
 public final class DesignPatternTest {
 
     // 测试时需要在 build.gradle 文件的 dependency 节点下添加 implementation(project(":lib-util"))
+
+    @Test
+    public void visitor() {
+        Visitors.exec();
+    }
 
     @Test
     public void iterator() {
