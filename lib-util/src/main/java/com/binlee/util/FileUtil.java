@@ -33,4 +33,11 @@ public final class FileUtil {
         baos.close();
         return baos.toString().trim();
     }
+
+    public static String guessName(String url) {
+        if (url == null || !url.contains("/")) {
+            return null;
+        }
+        return url.substring(url.lastIndexOf('/') + 1);
+    }
 }

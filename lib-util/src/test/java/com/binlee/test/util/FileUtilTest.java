@@ -1,6 +1,7 @@
 package com.binlee.test.util;
 
 import com.binlee.util.FileUtil;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -11,6 +12,13 @@ import java.io.IOException;
  * created by IDEA 2020/10/12
  */
 public final class FileUtilTest {
+
+    @Test
+    public void guessNameTest() {
+        Assert.assertEquals("abc.txt", FileUtil.guessName("http://www.examble.com/xxx/xxx/abc.txt"));
+        Assert.assertNotEquals("abc", FileUtil.guessName("http://www.examble.com/xxx/xxx/abc.txt"));
+        Assert.assertNull(FileUtil.guessName("abc.txt"));
+    }
 
     @Test
     public void rootDirTest() throws IOException {
