@@ -12,6 +12,7 @@ import com.binlee.design.factory.AbstractFactory;
 import com.binlee.design.factory.FactoryMethod;
 import com.binlee.design.factory.SimpleFactory;
 import com.binlee.design.flyweight.Flyweights;
+import com.binlee.design.interpreter.Interpreters;
 import com.binlee.design.iterator.Iterators;
 import com.binlee.design.mediator.Mediators;
 import com.binlee.design.memento.Mementos;
@@ -39,7 +40,7 @@ public final class DesignPatternTest {
 
     @Test
     public void interpreter() {
-        //
+        Interpreters.exec();
     }
 
     @Test
