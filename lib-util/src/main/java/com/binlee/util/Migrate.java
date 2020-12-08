@@ -31,9 +31,9 @@ public final class Migrate {
         // }
     }
 
-    public static void main(String[] args) {
-        new Migrate().exec(args);
-    }
+    // public static void main(String[] args) {
+    //     new Migrate().exec(args);
+    // }
 
     private void doMigrate() {
         File _posts = new File(_POST);

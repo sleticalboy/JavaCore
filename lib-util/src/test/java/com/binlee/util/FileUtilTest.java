@@ -1,6 +1,5 @@
-package com.binlee.test.util;
+package com.binlee.util;
 
-import com.binlee.util.FileUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

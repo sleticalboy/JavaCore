@@ -1,0 +1,12 @@
+package com.binlee.nio;
+
+/**
+ * @author binli sleticalboy@gmail.com
+ * created by IDEA 2020/12/8
+ */
+public class NioFileChannel {
+
+    public void run() {
+        getClass().getResource()
+    }
+}
