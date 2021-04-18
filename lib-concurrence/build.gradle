@@ -11,5 +11,5 @@ dependencies {
     // just for junit
     // https://mvnrepository.com/artifact/org.openjdk.jol/jol-core
     implementation group: 'org.openjdk.jol', name: 'jol-core', version: '0.14'
-    // implementation(project(":lib-util"))
+    implementation(project(":lib-util"))
 }
