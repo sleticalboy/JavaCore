@@ -13,6 +13,11 @@ import org.openjdk.jol.info.ClassLayout;
 public final class Concurrence {
 
     @Test
+    public void countDownLatches() {
+        CountDownLatches.exec();
+    }
+
+    @Test
     public void multiThreadsDownload() {
         Downloads.exec();
     }
