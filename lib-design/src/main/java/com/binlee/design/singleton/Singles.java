@@ -2,6 +2,8 @@ package com.binlee.design.singleton;
 
 import com.binlee.util.Logger;
 
+import java.io.Serializable;
+
 /**
  * @author binlee sleticalboy@gmail.com
  * created by IDEA on 2020/10/31
@@ -32,7 +34,7 @@ public final class Singles {
     }
 
     //////////////////// 饿汉式 2 种
-    public static class Single_1 {
+    public static class Single_1 implements Serializable {
 
         /**
          * 饿汉式，静态常量，多线程安全
@@ -50,6 +52,11 @@ public final class Singles {
 
         public void dump() {
             sLogger.d("Single 1 run... " + hashCode());
+        }
+
+        // 防止序列化破坏单例
+        private Object readResolve() {
+            return SINGLE_1;
         }
     }
 
