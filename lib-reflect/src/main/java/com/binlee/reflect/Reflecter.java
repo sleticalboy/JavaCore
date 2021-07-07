@@ -51,7 +51,11 @@ public final class Reflecter {
     }
 
     public static Class<?> forName(String clazz) {
-        return load(clazz);
+        return forName(clazz, Thread.currentThread().getContextClassLoader());
+    }
+
+    public static Class<?> forName(String clazz, ClassLoader loader) {
+        return load(clazz, loader);
     }
 
     public static class Reflekt {
@@ -175,9 +179,7 @@ public final class Reflecter {
         private Class<?>[] mInterfaces;
 
         private Prox(ClassLoader loader) {
-            if (loader == null) {
-                throw new ReflectException("Prox() with non class loader.");
-            }
+            if (loader == null) throw new ReflectException("Prox() with non class loader.");
             mLoader = loader;
         }
 
@@ -207,9 +209,7 @@ public final class Reflecter {
     }
 
     private static String getPackage(Class<?> cls) {
-        if (null == cls) {
-            return "";
-        }
+        if (null == cls) return "";
         final Package pkg = cls.getPackage();
         return null == pkg ? "" : pkg.getName();
     }
@@ -217,25 +217,11 @@ public final class Reflecter {
     // weak classes cache
     private static final Map<String, Class<?>> CLASSES = new WeakHashMap<>();
 
-    private static Class<?> load(String clazz) throws ReflectException {
+    private static Class<?> load(String clazz, ClassLoader loader) throws ReflectException {
         Class<?> klass = CLASSES.get(clazz);
-        if (klass != null) {
-            return klass;
-        }
+        if (klass != null) return klass;
         try {
-            klass = Class.forName(clazz);
-            CLASSES.put(clazz, klass);
-            return klass;
-        } catch (ClassNotFoundException ignored) {
-        }
-        try {
-            klass = Class.forName(clazz, false, Thread.currentThread().getContextClassLoader());
-            CLASSES.put(clazz, klass);
-            return klass;
-        } catch (ClassNotFoundException ignored) {
-        }
-        try {
-            klass = ClassLoader.getSystemClassLoader().loadClass(clazz);
+            klass = Class.forName(clazz, false, loader);
             CLASSES.put(clazz, klass);
             return klass;
         } catch (ClassNotFoundException e) {

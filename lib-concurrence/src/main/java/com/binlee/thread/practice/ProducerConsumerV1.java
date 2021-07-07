@@ -4,7 +4,6 @@ import com.binlee.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author binli sleticalboy@gmail.com
@@ -14,58 +13,50 @@ public final class ProducerConsumerV1 {
 
     private static final Logger LOGGER = Logger.get(ProducerConsumerV1.class);
 
-    private static final int CAPACITY = 15;
-    private static final long SLEEP_TIME = 500L;
-    private final List<String> mQueue = new ArrayList<>();
-    private static final AtomicInteger SEQ = new AtomicInteger();
-
     private ProducerConsumerV1() {
         //no instance
     }
 
-    // public static void main(String[] args) {
-    //     exec();
-    // }
+    public static void main(String[] args) {
+        exec();
+    }
 
     public static void exec() {
-        final ProducerConsumerV1 pc = new ProducerConsumerV1();
+        final List<String> queue = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            new Producer(i, pc.mQueue).start();
-        }
-        for (int i = 0; i < 3; i++) {
-            new Consumer(i, pc.mQueue).start();
+            new Producer(i, queue, 5).start();
+            new Consumer(i, queue).start();
         }
     }
 
     static class Producer extends Thread {
+        private final int index;
+        private final List<String> queue;
+        private final int max;
+        private int seq;
 
-        private final List<String> mQueue;
-        private final int mIndex;
-
-        public Producer(int index, List<String> queue) {
-            mQueue = queue;
-            mIndex = index;
+        public Producer(int index, List<String> queue, int max) {
+            this.index = index;
+            this.queue = queue;
+            this.max = max;
         }
 
         @Override
         public void run() {
-            LOGGER.w("Producer " + mIndex + " run...");
+            LOGGER.w("p-" + index + " run...");
             try {
-                while (!Thread.currentThread().isInterrupted() && SEQ.get() <= CAPACITY * 2) {
-                    synchronized (mQueue) {
-                        while (mQueue.size() >= CAPACITY) {
-                            // 唤醒消费线程
-                            mQueue.notifyAll();
-                            // 生产线程等待
-                            mQueue.wait();
+                while (isAlive() && !isInterrupted()) {
+                    synchronized (queue) {
+                        while (queue.size() >= max) {
+                            LOGGER.e("p-" + index + " wait for consumer...");
+                            queue.wait();
                         }
-                        String item = "product:" + SEQ.getAndIncrement();
-                        mQueue.add(item);
-                        // 唤醒消费线程
-                        mQueue.notifyAll();
+                        String item = "product:" + seq++;
                         LOGGER.i("produce-> " + item);
+                        queue.add(item);
+                        queue.notifyAll();
+                        Thread.sleep(500L);
                     }
-                    Thread.sleep(SLEEP_TIME);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -75,33 +66,29 @@ public final class ProducerConsumerV1 {
 
     static class Consumer extends Thread {
 
-        private final List<String> mQueue;
-        private final int mIndex;
+        private final List<String> queue;
+        private final int index;
 
         public Consumer(int index, List<String> queue) {
-            mQueue = queue;
-            mIndex = index;
+            this.index = index;
+            this.queue = queue;
         }
 
         @Override
         public void run() {
-            LOGGER.w("Consumer " + mIndex + " run...");
+            LOGGER.w("c-" + index + " run...");
             try {
-                while (!Thread.currentThread().isInterrupted() && SEQ.get() <= CAPACITY * 2) {
-                    String item;
-                    synchronized (mQueue) {
-                        while (mQueue.size() == 0) {
-                            // 唤醒生产线程
-                            mQueue.notifyAll();
-                            // 消费线程等待
-                            mQueue.wait();
+                while (isAlive() && !isInterrupted()) {
+                    synchronized (queue) {
+                        while (queue.size() == 0) {
+                            LOGGER.e("c-" + index + " wait for producer...");
+                            queue.wait();
                         }
-                        item = mQueue.remove(0);
-                        // 唤醒生产线程
-                        mQueue.notifyAll();
+                        String item = queue.remove(0);
+                        LOGGER.i("consume-> " + item);
+                        queue.notifyAll();
+                        Thread.sleep(500L);
                     }
-                    LOGGER.i("consume-> " + item);
-                    Thread.sleep(SLEEP_TIME);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -24,15 +24,12 @@ public class HandlerThread extends Thread {
     }
 
     public Looper getLooper() {
-        if (!isAlive()) {
-            return null;
-        }
+        if (!isAlive()) return null;
         synchronized (this) {
-            while (isAlive() && mLooper == null) {
+            while (mLooper == null) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                     sLogger.e("getLooper() error.", e);
                 }
             }

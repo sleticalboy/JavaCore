@@ -16,7 +16,7 @@ public final class Looper {
 
     public static void prepare() {
         if (myLooper() != null) {
-            throw new RuntimeException("Only one Looper may be created per com.binlee.thread");
+            throw new RuntimeException("Only one Looper may be created per thread");
         }
         sThreadLocal.set(new Looper());
     }

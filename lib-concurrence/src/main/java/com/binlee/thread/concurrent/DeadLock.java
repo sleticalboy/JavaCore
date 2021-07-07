@@ -28,7 +28,7 @@ public final class DeadLock {
         // 思死锁检测
         // 避免嵌套锁
 
-        // synchronized 是可重入锁
+        // synchronized 是可重入锁、排它锁
         new DeadLock().run0();
     }
 

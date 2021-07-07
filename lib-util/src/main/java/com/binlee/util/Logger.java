@@ -13,11 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Logger {
 
     private static final Map<String, Logger> LOGGERS = new ConcurrentHashMap<>();
-    private static final String VERBOSE = "V/%s: %s\n";
-    private static final String INFO = "\033[34mI/%s: %s\033[0m\n";
-    private static final String DEBUG = "\033[36mD/%s: %s\033[0m\n";
-    private static final String WARN = "\033[33mW/%s: %s\033[0m\n";
-    private static final String ERROR = "\033[31mE/%s: %s\033[0m\n";
+    private static final String VERBOSE = "V/ %s: %s\n";
+    private static final String INFO = "I/ %s: %s\n";
+    private static final String DEBUG = "D/ %s: %s\n";
+    private static final String WARN = "W/ %s: %s\n";
+    private static final String ERROR = "E/ %s: %s\n";
 
     private final String mTag;
     private boolean isDebuggable = true;
@@ -52,16 +52,12 @@ public final class Logger {
 
     public void e(String msg, Throwable tr) {
         printf(ERROR, mTag, msg);
-        if (tr == null) {
-            return;
-        }
+        if (tr == null) return;
         printf(ERROR, mTag, getStackTraceString(tr));
     }
 
     private void printf(String format, Object... args) {
-        if (isDebuggable) {
-            System.out.printf(format, args);
-        }
+        if (isDebuggable) System.out.printf(format, args);
     }
 
     public static Logger get(Class<?> clazz) {
@@ -76,14 +72,10 @@ public final class Logger {
     }
 
     public static String getStackTraceString(Throwable tr) {
-        if (tr == null) {
-            return "";
-        }
+        if (tr == null) return "";
         Throwable t = tr;
         while (t != null) {
-            if (t instanceof UnknownHostException) {
-                return "";
-            }
+            if (t instanceof UnknownHostException) return "";
             t = t.getCause();
         }
         final StringWriter sw = new StringWriter();

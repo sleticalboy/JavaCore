@@ -36,11 +36,13 @@ public final class SyncThread {
                 // notifyAll() 是在 /hotspot/src/share/vm/runtime/com.binlee.thread.cpp 中实现:
                 // 当线程退出时调用 ensure_join() -> lock.notify_all(com.binlee.thread), 由 JVM 自动实现唤醒
                 t.join();
-                // Object#wait() 方法, wait 的是调用 wait() 方法的线程
+                // Object#wait() 方法, 调用 wait() 方法的线程进行等待
+                // 调用 wait 和 notify/notifyAll 方法需要获取到锁
             } catch (InterruptedException e) {
                 sLogger.e(t.getName() + " join() error.", e);
             }
         }
+        // 所有的子线程执行完毕之后，才会执行主线程最后一行代码
         sLogger.v("main() end sValue: " + sync.mValue);
     }
 

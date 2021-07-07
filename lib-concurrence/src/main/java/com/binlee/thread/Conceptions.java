@@ -21,7 +21,7 @@ public final class Conceptions {
     // 计算机硬件内存架构：
     // CPU、高速缓存、缓存一致性协议、主内存
     //
-    // JVM: 栈、堆、方法区
+    // JVM: JVM 栈、native 栈、堆、方法区、程序计数器
 
     public static void main() {
         // 原子操作：不会被线程调度机制打断的操作（从操作开始到操作结束，不会被人打扰）[atomic operation]

@@ -198,7 +198,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
         volatile Node next;
 
         /**
-         * The com.binlee.thread that enqueued this node.  Initialized on
+         * The {@link Thread} that enqueued this node.  Initialized on
          * construction and nulled out after use.
          */
         volatile Thread thread;
@@ -256,21 +256,17 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
     }
 
     /**
-     * Head of the wait queue, lazily initialized.  Except for
-     * initialization, it is modified only via method setHead.  Note:
-     * If head exists, its waitStatus is guaranteed not to be
-     * CANCELLED.
+     * 等待队列头
      */
     private transient volatile Node head;
 
     /**
-     * Tail of the wait queue, lazily initialized.  Modified only via
-     * method enq to add new wait node.
+     * 等待队列尾
      */
     private transient volatile Node tail;
 
     /**
-     * The synchronization state.
+     * 临界资源
      */
     private volatile int state;
 
@@ -306,7 +302,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * value was not equal to the expected value.
      */
     protected final boolean compareAndSetState(int expect, int update) {
-        // CAS: compare and swap
+        // CAS: compare and swap/set/exchange
         // 当内存中的值(M)与预期值(E)相同时，才设置新值(N)
         // See below for intrinsics setup to support this
         try {
@@ -835,9 +831,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * implementation throws {@link UnsupportedOperationException}.
      *
      * @param acquires the acquire argument. This value is always the one
-     *            passed to an acquire method, or is the value saved on entry
-     *            to a condition wait.  The value is otherwise uninterpreted
-     *            and can represent anything you like.
+     *                 passed to an acquire method, or is the value saved on entry
+     *                 to a condition wait.  The value is otherwise uninterpreted
+     *                 and can represent anything you like.
      * @return {@code true} if successful. Upon success, this object has
      * been acquired.
      * @throws IllegalMonitorStateException  if acquiring would place this
@@ -860,9 +856,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * {@link UnsupportedOperationException}.
      *
      * @param acquires the release argument. This value is always the one
-     *            passed to a release method, or the current state value upon
-     *            entry to a condition wait.  The value is otherwise
-     *            uninterpreted and can represent anything you like.
+     *                 passed to a release method, or the current state value upon
+     *                 entry to a condition wait.  The value is otherwise
+     *                 uninterpreted and can represent anything you like.
      * @return {@code true} if this object is now in a fully released
      * state, so that any waiting threads may attempt to acquire;
      * and {@code false} otherwise.
@@ -890,9 +886,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * UnsupportedOperationException}.
      *
      * @param acquires the acquire argument. This value is always the one
-     *            passed to an acquire method, or is the value saved on entry
-     *            to a condition wait.  The value is otherwise uninterpreted
-     *            and can represent anything you like.
+     *                 passed to an acquire method, or is the value saved on entry
+     *                 to a condition wait.  The value is otherwise uninterpreted
+     *                 and can represent anything you like.
      * @return a negative value on failure; zero if acquisition in shared
      * mode succeeded but no subsequent shared-mode acquire can
      * succeed; and a positive value if acquisition in shared
@@ -921,9 +917,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * {@link UnsupportedOperationException}.
      *
      * @param acquires the release argument. This value is always the one
-     *            passed to a release method, or the current state value upon
-     *            entry to a condition wait.  The value is otherwise
-     *            uninterpreted and can represent anything you like.
+     *                 passed to a release method, or the current state value upon
+     *                 entry to a condition wait.  The value is otherwise
+     *                 uninterpreted and can represent anything you like.
      * @return {@code true} if this release of shared mode may permit a
      * waiting acquire (shared or exclusive) to succeed; and
      * {@code false} otherwise
@@ -965,8 +961,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * to implement method {@link Lock#lock}.
      *
      * @param acquires the acquire argument.  This value is conveyed to
-     *            {@link #tryAcquire} but is otherwise uninterpreted and
-     *            can represent anything you like.
+     *                 {@link #tryAcquire} but is otherwise uninterpreted and
+     *                 can represent anything you like.
      */
     public final void acquire(int acquires) {
         if (!tryAcquire(acquires) && acquireQueued(addWaiter(Node.EXCLUSIVE), acquires)) {
@@ -984,8 +980,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * used to implement method {@link Lock#lockInterruptibly}.
      *
      * @param acquires the acquire argument.  This value is conveyed to
-     *            {@link #tryAcquire} but is otherwise uninterpreted and
-     *            can represent anything you like.
+     *                 {@link #tryAcquire} but is otherwise uninterpreted and
+     *                 can represent anything you like.
      * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final void acquireInterruptibly(int acquires)
@@ -1008,7 +1004,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * or the timeout elapses.  This method can be used to implement
      * method {@link Lock#tryLock(long, TimeUnit)}.
      *
-     * @param acquires          the acquire argument.  This value is conveyed to
+     * @param acquires     the acquire argument.  This value is conveyed to
      *                     {@link #tryAcquire} but is otherwise uninterpreted and
      *                     can represent anything you like.
      * @param nanosTimeout the maximum number of nanoseconds to wait
@@ -1029,8 +1025,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * This method can be used to implement method {@link Lock#unlock}.
      *
      * @param acquires the release argument.  This value is conveyed to
-     *            {@link #tryRelease} but is otherwise uninterpreted and
-     *            can represent anything you like.
+     *                 {@link #tryRelease} but is otherwise uninterpreted and
+     *                 can represent anything you like.
      * @return the value returned from {@link #tryRelease}
      */
     public final boolean release(int acquires) {
@@ -1052,8 +1048,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * #tryAcquireShared} until success.
      *
      * @param acquires the acquire argument.  This value is conveyed to
-     *            {@link #tryAcquireShared} but is otherwise uninterpreted
-     *            and can represent anything you like.
+     *                 {@link #tryAcquireShared} but is otherwise uninterpreted
+     *                 and can represent anything you like.
      */
     public final void acquireShared(int acquires) {
         if (tryAcquireShared(acquires) < 0) {
@@ -1070,9 +1066,9 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * is interrupted.
      *
      * @param acquires the acquire argument.
-     *            This value is conveyed to {@link #tryAcquireShared} but is
-     *            otherwise uninterpreted and can represent anything
-     *            you like.
+     *                 This value is conveyed to {@link #tryAcquireShared} but is
+     *                 otherwise uninterpreted and can represent anything
+     *                 you like.
      * @throws InterruptedException if the current com.binlee.thread is interrupted
      */
     public final void acquireSharedInterruptibly(int acquires)
@@ -1094,7 +1090,7 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * invoking {@link #tryAcquireShared} until success or the com.binlee.thread
      * is interrupted or the timeout elapses.
      *
-     * @param acquires          the acquire argument.  This value is conveyed to
+     * @param acquires     the acquire argument.  This value is conveyed to
      *                     {@link #tryAcquireShared} but is otherwise uninterpreted
      *                     and can represent anything you like.
      * @param nanosTimeout the maximum number of nanoseconds to wait
@@ -1114,8 +1110,8 @@ abstract public class JdkAQS extends AbstractOwnableSynchronizer implements java
      * threads if {@link #tryReleaseShared} returns true.
      *
      * @param acquires the release argument.  This value is conveyed to
-     *            {@link #tryReleaseShared} but is otherwise uninterpreted
-     *            and can represent anything you like.
+     *                 {@link #tryReleaseShared} but is otherwise uninterpreted
+     *                 and can represent anything you like.
      * @return the value returned from {@link #tryReleaseShared}
      */
     public final boolean releaseShared(int acquires) {

@@ -13,7 +13,7 @@ public final class Volatiles {
     private static final Logger LOGGER = Logger.get(Volatiles.class);
     private static /*volatile*/ boolean sRun = true;
 
-    // volatile: 可见性
+    // volatile: 内存可见性
     // synchronized: 原子性 & 可见性
 
     private static void run() {
