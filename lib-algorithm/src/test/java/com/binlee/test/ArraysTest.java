@@ -1,6 +1,7 @@
 package com.binlee.test;
 
 import com.binlee.algorithm.array.Arrays;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,5 +32,13 @@ public final class ArraysTest {
     public void sortTest() {
         Arrays.sort(arr);
         System.out.println("sorted: " + java.util.Arrays.toString(arr));
+    }
+
+    @Test
+    public void binSearch() {
+        int[] arr = {1, 2, 3, 4, 5, 7, 9};
+        final int index = Arrays.binSearch(arr, 60);
+        System.out.println("index: " + index);
+        Assert.assertEquals(-1, index);
     }
 }
