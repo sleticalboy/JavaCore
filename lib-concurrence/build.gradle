@@ -7,9 +7,9 @@ dependencies {
     compileOnly project(":lib-util")
     compileOnly project(":lib-reflect")
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     // just for junit
     // https://mvnrepository.com/artifact/org.openjdk.jol/jol-core
-    implementation group: 'org.openjdk.jol', name: 'jol-core', version: '0.14'
+    implementation 'org.openjdk.jol:jol-core:0.16'
     implementation(project(":lib-util"))
 }
