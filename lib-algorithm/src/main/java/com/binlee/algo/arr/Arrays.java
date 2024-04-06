@@ -1,4 +1,4 @@
-package com.binlee.algorithm.array;
+package com.binlee.algo.arr;
 
 import java.util.*;
 

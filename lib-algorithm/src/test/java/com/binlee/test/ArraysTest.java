@@ -1,6 +1,6 @@
 package com.binlee.test;
 
-import com.binlee.algorithm.array.Arrays;
+import com.binlee.algo.arr.Arrays;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

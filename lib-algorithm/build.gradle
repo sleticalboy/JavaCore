@@ -6,4 +6,5 @@ targetCompatibility = "1.8"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13.2'
+    implementation 'com.google.guava:guava:33.0.0-jre'
 }
