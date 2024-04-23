@@ -25,9 +25,8 @@ public class DagExecutor {
       }
       try {
         task.run();
-        dag.notifyDone(task);
-      } catch (Throwable err) {
-        dag.notifyError(task, err);
+      } catch (Throwable tr) {
+        dag.notifyError(task, tr);
       }
     }
   }

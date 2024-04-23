@@ -19,7 +19,16 @@ public final class Dag<R extends Dag.Task> {
 
   public static abstract class Task implements Runnable {
 
-    private Status mStatus = Status.IDLE;
+    protected Status mStatus = Status.IDLE;
+    protected final String mName;
+
+    public Task(String mName) {
+      this.mName = mName;
+    }
+
+    public final String name() {
+      return mName;
+    }
 
     public final Status status() {
       return mStatus;
@@ -30,6 +39,11 @@ public final class Dag<R extends Dag.Task> {
     }
 
     @Override
+    public String toString() {
+      return "{'" + mName + '\'' + "=>" + mStatus + '}';
+    }
+
+    @Override
     public final void run() {
       try {
         mStatus = Status.PROCESSING;
@@ -37,6 +51,7 @@ public final class Dag<R extends Dag.Task> {
         mStatus = Status.COMPLETED;
       } catch (Throwable tr) {
         mStatus = Status.ERRORS;
+        throw tr;
       }
     }
 
@@ -81,18 +96,13 @@ public final class Dag<R extends Dag.Task> {
 
   /** 任务状态，在 DAGExecutor 执行完成后调用 */
   public Status status() {
-    readLock.lock();
-    try {
-      if (numTasks() == 0) {
-        return Status.COMPLETED;
-      }
-      if (!errors.isEmpty()) {
-        return Status.ERRORS;
-      }
-      return Status.PROCESSING;
-    } finally {
-      readLock.unlock();
+    if (numTasks() == 0) {
+      return Status.COMPLETED;
     }
+    if (numErrors() > 0) {
+      return Status.ERRORS;
+    }
+    return Status.PROCESSING;
   }
 
   /** DAG 执行错误信息 */
@@ -123,12 +133,7 @@ public final class Dag<R extends Dag.Task> {
   public R nextTask() {
     writeLock.lock();
     try {
-      R task = peekNextTask();
-      if (task == null) {
-        return null;
-      }
-      // tasks.remove(task);
-      return task;
+      return peekNextTask();
     } finally {
       writeLock.unlock();
     }
@@ -170,26 +175,15 @@ public final class Dag<R extends Dag.Task> {
 
   /** 是否存在执行错误 */
   public boolean hasErrors() {
-    readLock.lock();
-    try {
-      return errors.size() > 0;
-    } finally {
-      readLock.unlock();
-    }
+    return numErrors() > 0;
   }
 
-  /**
-   * 任务执行成功通知，依赖会删除该任务的
-   *
-   * @param runnable 任务
-   */
-  public void notifyDone(R runnable) {
-    // Remove task from the list of remaining dependencies for any other tasks.
-    writeLock.lock();
+  public int numErrors() {
+    readLock.lock();
     try {
-      // dependencies.values().remove(runnable);
+      return errors.size();
     } finally {
-      writeLock.unlock();
+      readLock.unlock();
     }
   }
 
@@ -228,7 +222,11 @@ public final class Dag<R extends Dag.Task> {
 
   @Override
   public String toString() {
-    return "Dag{deps=" + dependencies + '}';
+    StringBuilder msg = new StringBuilder("Dag{\n");
+    for (R task : tasks) {
+      msg.append(task.name()).append("=>").append(dependencies.get(task)).append('\n');
+    }
+    return msg + "}";
   }
 
   public void dump() {

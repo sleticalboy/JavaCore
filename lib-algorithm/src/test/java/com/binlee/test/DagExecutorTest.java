@@ -12,15 +12,8 @@ public class DagExecutorTest {
   /** 任务 */
   static class Task extends Dag.Task {
 
-    private final String name;
-
     Task(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      return "{name='" + name + "'}";
+      super(name);
     }
 
     @Override
@@ -31,7 +24,7 @@ public class DagExecutorTest {
         // do nothing
         e.printStackTrace();
       }
-      System.out.println("Thread: " + Thread.currentThread().getId() + " Task: " + name + " is done.");
+      System.out.println("Thread: " + Thread.currentThread().getId() + " Task: " + mName + " is done.");
     }
   }
 
@@ -66,7 +59,6 @@ public class DagExecutorTest {
         .putEdge(t4, t10) // vbss - 导出
         .putEdge(t9, t10) // 嘴唇驱动 - 导出
         .build();
-    System.out.println(graph);
     // 图转换为DAG
     final Dag<Task> dag = new Dag<>(graph);
     System.out.println(dag);
@@ -80,6 +72,6 @@ public class DagExecutorTest {
         dag.dump();
       }
     }
-    System.out.println("done....." + dag.status());
+    System.out.println(dag);
   }
 }
